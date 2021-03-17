@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf1e8d1560349e418db6a5f723dc07d, type: 3}
+  m_Name: Normal_Stage06
+  m_EditorClassIdentifier: 
+  stageName: The Peak
+  stageDescription: You reached the Peak, or is it? What ever it is, it's a portal
+    to another world.
+  banner: {fileID: 11400000, guid: 5d603268032a654418ba618e05a4a149, type: 2}
+  waves: []
+  stageMusic: {fileID: 11400000, guid: 783c5ff83eb2fc345837c8a8558b8711, type: 2}
+  bossMusic: {fileID: 11400000, guid: 05f45df1726965f46b9c17123dfb8df8, type: 2}
+  background: {fileID: 11400000, guid: 8471dd913f0a92e4b80e2a903b657770, type: 2}

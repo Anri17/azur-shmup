@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6072d3528b10941ac8501f591156d2, type: 3}
+  m_Name: S3_EndBoss1
+  m_EditorClassIdentifier: 
+  DialogueMessages:
+  - {fileID: 11400000, guid: 2adec06038b15bc488d3b2cee39a0297, type: 2}
+  - {fileID: 11400000, guid: 9264a837d589f2745a7bc9e9241914c6, type: 2}
+  - {fileID: 11400000, guid: 328037c9dcae48349ab43575c00f84ff, type: 2}
+  - {fileID: 11400000, guid: 948c3d234aa7c8548b668bd3bdca8910, type: 2}
+  - {fileID: 11400000, guid: 1609669e50146174d96b4bf48ba7c02f, type: 2}

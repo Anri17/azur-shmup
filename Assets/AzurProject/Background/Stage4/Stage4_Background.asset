@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c0cbc2d7e69bf4298e39aa8549abcd, type: 3}
+  m_Name: Stage4_Background
+  m_EditorClassIdentifier: 
+  background: {fileID: 3383705223897700664, guid: 54796c91f6895da4494f39361abaf314,
+    type: 3}
+  cameraEnd: {x: 0, y: 0, z: 150}
+  cameraSpeed: 8

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2514a9b06d1b5d48962ab0709d74723, type: 3}
+  m_Name: Melodic Corridor
+  m_EditorClassIdentifier: 
+  musicTitle: Melodic Corridor
+  musicClip: {fileID: 8300000, guid: d744074e85ffe674885ebad2c4f483a5, type: 3}
+  loopStart: 14226
+  composerComment: 'The Extra Stage Theme.
+
+
+    A challenger is approaching. Pretty
+    menacing.'

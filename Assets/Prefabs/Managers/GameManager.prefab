@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5806295755648759208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5806295755648759214}
+  - component: {fileID: 5806295755648759209}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5806295755648759214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806295755648759208}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5806295755648759209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806295755648759208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1a5ec6fba8ef94d9a806b5d02e2a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  easyDifficultyPack: {fileID: 11400000, guid: 25a357b4d96ead84f8ff4a2cf00079d1, type: 2}
+  normalDifficultyPack: {fileID: 11400000, guid: d072606bf333c3843b345d5bd0ef80bd,
+    type: 2}
+  hardDifficultyPack: {fileID: 11400000, guid: a2cb124f765083644b2e0ff59b675a24, type: 2}
+  insaneDifficultyPack: {fileID: 11400000, guid: 4be85f8e78a22734eaca579847a8d200,
+    type: 2}
+  player: {fileID: 4037159831597851511, guid: bfe6cc0d5ce856c40ab352a71f92f48d, type: 3}
+  powerItem: {fileID: 6719004770698810563, guid: 53db7a3d635b9d541bd3d382cb526a47,
+    type: 3}
+  bigPowerItem: {fileID: 6719004770698810563, guid: 1b8a86d5d6ef98647bad692b90fe14f5,
+    type: 3}
+  scoreItem: {fileID: 9156461194448261568, guid: b10fce0f81509e340a8a17e6daa6a75c,
+    type: 3}
+  lifeItem: {fileID: 9156461194448261568, guid: c36a6c374f52b944980316f602891600,
+    type: 3}
+  bombItem: {fileID: 6719004770698810563, guid: 6e292b177b686d54c85b4c91dd334b97,
+    type: 3}
+  spawnedPlayer: {fileID: 0}
+  deathAnimation: {fileID: 4541178307009083875, guid: 5133c1041de0f034c9a3ad399021852f,
+    type: 3}

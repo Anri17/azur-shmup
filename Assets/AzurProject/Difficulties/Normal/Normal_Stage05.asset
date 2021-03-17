@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf1e8d1560349e418db6a5f723dc07d, type: 3}
+  m_Name: Normal_Stage05
+  m_EditorClassIdentifier: 
+  stageName: Mystic Place
+  stageDescription: This is a strange place. Lots of spirits here. It's like space
+  banner: {fileID: 11400000, guid: 162269135e8bc744088b4d9e24b0f401, type: 2}
+  waves: []
+  stageMusic: {fileID: 11400000, guid: 5ad591e7366f693468492a7da63c6d38, type: 2}
+  bossMusic: {fileID: 11400000, guid: 1014a858e765cdd4a9832df23911921d, type: 2}
+  background: {fileID: 11400000, guid: f3c5a84432775ca4ba6a08b9f3589d94, type: 2}
