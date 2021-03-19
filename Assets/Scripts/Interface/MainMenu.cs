@@ -52,6 +52,12 @@ namespace AzurProject
             menu.SetActive(true);
         }
 
+        public void LoadStageEditor()
+        {
+            musicPlayer.StopMusic();
+            _sceneManager.LoadScene(SceneIndex.EDITOR_SCENE);
+        }
+
         public void ExitApplication()
         {
             Application.Quit();

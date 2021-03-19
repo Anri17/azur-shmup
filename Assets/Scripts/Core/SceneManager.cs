@@ -19,6 +19,11 @@ namespace AzurProject.Core
             StartCoroutine(LoadSceneCoroutine(sceneIndex));
         }
 
+        public void LoadScene(SceneIndex sceneIndex)
+        {
+            StartCoroutine(LoadSceneCoroutine((int)sceneIndex));
+        }
+
         private void Awake()
         {
             MakeSingleton();

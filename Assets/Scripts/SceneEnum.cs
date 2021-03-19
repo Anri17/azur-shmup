@@ -8,6 +8,7 @@ namespace AzurProject
     {
         START_SCENE,
         MENU_SCENE,
-        STAGE_SCENE
+        STAGE_SCENE,
+        EDITOR_SCENE
     }
 }
