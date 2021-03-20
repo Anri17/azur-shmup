@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 namespace AzurProject
 {
@@ -25,6 +26,25 @@ namespace AzurProject
             dir = target.InverseTransformDirection(dir);
 
             return dir;
+        }
+        
+        public static Sprite LoadSprite(string filePath, float pixelPerUnit)
+        {
+            Texture2D tex2D = new Texture2D(2, 2);
+
+            byte[] imageData = File.ReadAllBytes(filePath);
+            string[] path = filePath.Split('\\');
+            
+            tex2D.LoadImage(imageData);
+            tex2D.filterMode = FilterMode.Point;
+            tex2D.Compress(false);
+            
+            Rect rect = new Rect(Vector2.zero, new Vector2(tex2D.width, tex2D.height));
+            Sprite sprite = Sprite.Create(tex2D, rect, Vector2.zero, pixelPerUnit);
+
+            sprite.name = path[path.Length - 1]; // name of the texture is the last of the path
+            
+            return sprite;
         }
     }
 }
