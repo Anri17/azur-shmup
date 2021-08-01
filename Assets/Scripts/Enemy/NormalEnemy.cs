@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using AzurProject.Bullet;
 using AzurProject.Core;
 using UnityEngine;
 
@@ -7,7 +6,8 @@ namespace AzurProject.Enemy
 {
     public class NormalEnemy : Enemy
     {
-        [Header("Base")] [SerializeField] public float health = 80;
+        [Header("Base")]
+        [SerializeField] public float health = 80;
         [SerializeField] public int scoreWorth = 100;
 
         [Header("Items to Drop")] [SerializeField]
@@ -54,8 +54,8 @@ namespace AzurProject.Enemy
 
         private void TakeDamage(Collider2D playerBullet)
         {
-            float damageValue = playerBullet.GetComponent<PlayerBullet>().Damage;
-            health -= damageValue;
+            // float damageValue = playerBullet.GetComponent<PlayerBullet>().Damage;
+            // health -= damageValue;
             gameManager.CurrentPlaySession.Score += 40;
 
             if (!_beingHit)
@@ -80,7 +80,10 @@ namespace AzurProject.Enemy
         {
             if (collision.CompareTag("PlayerBullet"))
             {
-                TakeDamage(collision);
+                if (IsInPlayArea)
+                {
+                    TakeDamage(collision);
+                }
                 CalculateHealth();
             }
 

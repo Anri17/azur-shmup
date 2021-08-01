@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using AzurProject.Core;
 using TMPro;
+using UnityEngine.Serialization;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace AzurProject
 {
     public class UIManager : MonoBehaviour
     {
+        public static UIManager Instance { get; private set; }
         private AudioPlayer _audioPlayer;
 
         [Header("Main Menu")]
@@ -18,21 +20,21 @@ namespace AzurProject
 
         public bool canOpenMenu;
         [Header("Game Over")]
-        [SerializeField] GameObject gameOverScreen;
-        [SerializeField] GameObject finalScoreBoard;
-        [SerializeField] Text endScreenScore;
-        [SerializeField] Text endScreenLivesCalculation;
-        [SerializeField] Text endScreenLives;
-        [SerializeField] Text endScreenBonus;
-        [SerializeField] Text endScreenFinalScore;
-        [SerializeField] TMP_Text _nowPlayingBMGText;
+        [SerializeField] private GameObject gameOverScreen;
+        [SerializeField] private GameObject finalScoreBoard;
+        [SerializeField] private Text endScreenScore;
+        [SerializeField] private Text endScreenLivesCalculation;
+        [SerializeField] private Text endScreenLives;
+        [SerializeField] private Text endScreenBonus;
+        [SerializeField] private Text endScreenFinalScore;
+        [FormerlySerializedAs("_nowPlayingBMGText")] [SerializeField] private TMP_Text nowPlayingBMGText;
 
-        public bool reachedEnd = false;
-
-        void Awake()
+        private void Awake()
         {
+            Instance = this;
             canOpenMenu = true;
             pauseMenu.SetActive(false);
+            GameManager.Instance.GamePaused = false;
             _audioPlayer = AudioPlayer.Instance;
         }
 
@@ -40,10 +42,9 @@ namespace AzurProject
         {
             gameOverScreen.SetActive(false);
             finalScoreBoard.SetActive(false);
-            reachedEnd = false;
         }
 
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape) && canOpenMenu)
             {
@@ -60,7 +61,7 @@ namespace AzurProject
                 Time.timeScale = 1;
                 pauseMenu.SetActive(false);
                 GameManager.LockCursor();
-                
+                GameManager.Instance.GamePaused = false;
             }
             else
             {
@@ -69,6 +70,7 @@ namespace AzurProject
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
                 GameManager.UnlockCursor();
+                GameManager.Instance.GamePaused = true;
             }
         }
 
@@ -93,7 +95,7 @@ namespace AzurProject
         public void ResetStage()
         {
             finalScoreBoard.SetActive(false);       // Hide Final Information
-            reachedEnd = false;
+            WaveManager.Instance.ReachedEnd = false;
             Time.timeScale = 1;
             GameManager.LockCursor();
         }
@@ -101,7 +103,6 @@ namespace AzurProject
         public void EndStage()
         {
             DisplayFinalInfo();
-            reachedEnd = true;
             GameManager.UnlockCursor();
             Time.timeScale = 1;
         }
@@ -112,18 +113,18 @@ namespace AzurProject
             StartCoroutine(GameOverCoroutine());
         }
 
-        void DisplayGameOverScreen()
+        private void DisplayGameOverScreen()
         {
             gameOverScreen.SetActive(true);
         }
 
         public void DisplayCurrentBMGText(string bgmName)
         {
-            _nowPlayingBMGText.text = "♪ Now Playing: " + bgmName;
-            _nowPlayingBMGText.GetComponent<Animator>().SetBool("Display", true);
+            nowPlayingBMGText.text = "♪ Now Playing: " + bgmName;
+            nowPlayingBMGText.GetComponent<Animator>().SetBool("Display", true);
         }
 
-        IEnumerator GameOverCoroutine()
+        private IEnumerator GameOverCoroutine()
         {
             GameManager.UnlockCursor();
             Time.timeScale = 1;

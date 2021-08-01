@@ -17,23 +17,32 @@ namespace AzurProject
         [SerializeField] private SpellAttack[] spellAttacks;
 
         private int _spellAttackIndex = 0;
-        private GameObject _currentSpellAttackGameObject;
         private SpellAttack _currentSpellAttack;
+        private GameObject _currentSpellAttackGameObject;
+        private GameObject _currentBossSpellGameObject;   // the part of the spell that follows the boss
+        private GameObject _currentStageSpellGameObject;  // the part of the spell that does not move and is parented to the scene
         private bool _hittable = false;
         
         private WaveManager _waveManager;
         private AudioPlayer _audioPlayer;
 
         private bool _isDead = false;
-        
+
         public void StartBoss()
         {
             Next();
         }
 
-        public void MoveToDefaultPosition()
+        public void MoveToPosition(Vector2 pos)
         {
-            StartCoroutine(MoveToPositionCoroutine(GameManager.DEFAULT_BOSS_POSITION, 1));
+            if (pos == Vector2.zero)
+            {
+                StartCoroutine(MoveToPositionCoroutine(GameManager.DEFAULT_BOSS_POSITION, 1));
+            }
+            else
+            {
+                StartCoroutine(MoveToPositionCoroutine(pos, 1));
+            }
         }
 
         private void Awake()
@@ -54,7 +63,7 @@ namespace AzurProject
             if ((collision.CompareTag("PlayerBullet") || collision.CompareTag("PlayerLazer")) && _hittable)
             {
                 GameManager.Instance.CurrentPlaySession.Score += 80;
-                CurrentHealth -= collision.GetComponent<PlayerBullet>().Damage;
+                // CurrentHealth -= collision.GetComponent<PlayerBullet>().Damage;
                 Destroy(collision.gameObject);
 
                 if (!_beingHit)
@@ -90,7 +99,7 @@ namespace AzurProject
             _spellAttackIndex++;
             if (_spellAttackIndex < spellAttacks.Length)
             {
-                MoveToDefaultPosition();
+                MoveToPosition(_currentSpellAttack.startPosition);
                 DestroyCurrentStage();
                 Next();
             }
@@ -127,7 +136,7 @@ namespace AzurProject
             KillBoss();
         }
 
-        private IEnumerator FillHealthBar(float timeToFill)
+        private IEnumerator FillHealthBarCoroutine(float timeToFill)
         {
             CurrentMaxHealth = 100f;
             float t = 0f;
@@ -142,14 +151,14 @@ namespace AzurProject
         private void Next()
         {
             _isDead = false;
-            MoveToDefaultPosition();
+            MoveToPosition(spellAttacks[_spellAttackIndex].startPosition);
             StartCoroutine(NextCoroutine());
         }
 
         private IEnumerator NextCoroutine()
         {
             float timeToWait = spellAttacks[_spellAttackIndex].chargeTime;
-            StartCoroutine(FillHealthBar(timeToWait));
+            StartCoroutine(FillHealthBarCoroutine(timeToWait));
             yield return new WaitForSeconds(timeToWait);
             SetStage(_spellAttackIndex);
         }
@@ -160,8 +169,24 @@ namespace AzurProject
             CurrentMaxHealth = _currentSpellAttack.health;
             CurrentHealth = _currentSpellAttack.health;
             CurrentDeathTimer = _currentSpellAttack.deathTimer;
-            _currentSpellAttackGameObject = Instantiate(_currentSpellAttack.spellAttack, transform);
+            
+            // spawn spell
+            _currentSpellAttackGameObject = Instantiate(_currentSpellAttack.spellAttack, Vector3.zero, Quaternion.identity);
 
+            // get spell attacks
+            SpellAttacks.SpellAttack spellAttack =
+                _currentSpellAttackGameObject.GetComponent<SpellAttacks.SpellAttack>();
+
+            // set spell attacks
+            _currentBossSpellGameObject = spellAttack.bossShots;
+            _currentStageSpellGameObject = spellAttack.staticShots;
+
+            // set boss spell to ths boss's GameObject
+            _currentBossSpellGameObject.transform.parent = transform;
+            _currentBossSpellGameObject.transform.position = transform.position;
+            
+            spellAttack.StartSpell();
+            
             _hittable = true;
 
             StartCoroutine(CountDownDeathTimer());
@@ -169,6 +194,8 @@ namespace AzurProject
 
         private void DestroyCurrentStage()
         {
+            Destroy(_currentBossSpellGameObject);
+            Destroy(_currentStageSpellGameObject);
             Destroy(_currentSpellAttackGameObject);
         }
     }

@@ -13,9 +13,12 @@ namespace AzurProject.Movement
 
         private void Awake()
         {
-            if (transform.parent != null)
+            if (transform.parent != null )
             {
-                MainTransform = transform.parent;
+                if (transform.parent.CompareTag("Enemy"))
+                {
+                    MainTransform = transform.parent;
+                }
             }
             else
             {

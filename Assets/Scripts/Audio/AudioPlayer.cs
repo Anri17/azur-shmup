@@ -150,5 +150,22 @@ namespace AzurProject
         {
             bgmAudioSource.Play();
         }
+
+        public void FadeMusicOut()
+        {
+            StartCoroutine(FadeMusicOutCoroutine());
+        }
+
+        private IEnumerator FadeMusicOutCoroutine()
+        {
+            for (float t = 1; t > 0; t -= Time.deltaTime)
+            {
+                bgmAudioSource.volume = t;
+                yield return null;
+            }
+            StopMusic();
+            bgmAudioSource.volume = 1;
+            yield return null;
+        }
     }
 }

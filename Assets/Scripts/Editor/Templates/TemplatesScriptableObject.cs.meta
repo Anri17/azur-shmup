@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: 6d8860a8a126a124ca346db01335c476
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - smallRedShipGameObject: {fileID: 8692496675400619733, guid: 78de26e7f50dd144c80490d4767ec9d9,
+      type: 3}
+  - mediumPurpleShipGameObject: {fileID: 6808411128895408520, guid: 7c5933c2219c27842ab33710db15bdfc,
+      type: 3}
+  - turretGameObject: {fileID: 7494820990105145137, guid: a87af86af90162841a20cad0c128cf01,
+      type: 3}
+  - magicStoneGameObject: {fileID: 1472548957626761474, guid: 07350dc7e60dc674ab757e186b8a99fc,
+      type: 3}
+  - blueFairyGameObject: {fileID: 1104636296181704548, guid: f45e99cc158d92f4fbf4c93ea52b7b22,
+      type: 3}
+  - redFairyGameObject: {fileID: 6867473549731645235, guid: 282038fbac928f0469371e246d56cbe0,
+      type: 3}
+  - linearMovement: {fileID: 6675028897067035984, guid: 8b289cdf8f4879145ad49821b28e7056,
+      type: 3}
+  - bezierMovement: {fileID: 4787760276729378104, guid: a5b550c4806731541a6ca0cceac2159d,
+      type: 3}
+  - randomMovement: {fileID: 2706855117535429994, guid: d90d037c776574b4ab1599015153d854,
+      type: 3}
+  - linearShot: {fileID: 4362050671992391478, guid: 07b41198d01393649b08977c23a20539,
+      type: 3}
+  - randomTimedShot: {fileID: 2109692434393908489, guid: 985388776ecb43b4d872451a3a6efe26,
+      type: 3}
+  - ringShot: {fileID: 3212541233963842889, guid: 34ed8b783fc4d4d4f91baef910b7511f,
+      type: 3}
+  - coneShot: {fileID: 5282857888986837403, guid: 980cceca09dbfe0459fdb1906ac0e627,
+      type: 3}
+  - randomPositionRingShot: {fileID: 5240639016739190564, guid: 313d29f946cc4e840a1dbd12a47d37c7,
+      type: 3}
+  - randomShot: {fileID: 5463733498660633804, guid: bc805013612f13d4caf182979c326b7c,
+      type: 3}
+  - staticRotationShot: {fileID: 2139484746981059933, guid: 24a4f9d3635cead4ab92fa1273d009ab,
+      type: 3}
+  - spellAttack: {fileID: 2245982664380280264, guid: f11fa67b3321c0540a7fc5da4602d72f,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

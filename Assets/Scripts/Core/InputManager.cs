@@ -6,6 +6,7 @@ namespace AzurProject.Core
     public class InputManager : MonoBehaviour
     {
         public static InputManager Instance { get; private set; }
+        
         public KeyCode Up { get; set; }
         public KeyCode Down { get; set; }
         public KeyCode Left { get; set; }

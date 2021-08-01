@@ -1,13 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
-using AzurProject.Data;
-using AzurProject.Movement;
-using AzurProject.Shooting;
-using AzurProject.StageEditor;
+﻿using AzurProject.Data;
 using UnityEngine;
-using UnityEngine.Events;
-using Random = System.Random;
 
 namespace AzurProject.Enemy
 {

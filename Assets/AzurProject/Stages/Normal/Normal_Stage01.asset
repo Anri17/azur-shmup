@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf1e8d1560349e418db6a5f723dc07d, type: 3}
+  m_Name: Normal_Stage01
+  m_EditorClassIdentifier: 
+  stageName: Strange Tunes Approaching
+  stageDescription: Suddenly she feels an explosion of magic in the air. She begins
+    to explore and as such she goes out to explore.
+  banner: {fileID: 11400000, guid: fe1d963d23ace454099ad50580293edd, type: 2}
+  waves:
+  - {fileID: 11400000, guid: 8c01fd00ee0d4d843bbfb4d1dcdc5f73, type: 2}
+  - {fileID: 11400000, guid: 62871a500472d4540aeeff7d82bd1e8f, type: 2}
+  - {fileID: 11400000, guid: 96f88fc5683ac934f82c5833331c0eb2, type: 2}
+  - {fileID: 11400000, guid: 6db8eab51c5ffc246a6459bef5bf6167, type: 2}
+  - {fileID: 11400000, guid: 97ef2296b592e0f4ab399a512f5c4f52, type: 2}
+  - {fileID: 11400000, guid: 123a4461f3b53ef4984e1c458ce56341, type: 2}
+  - {fileID: 11400000, guid: b338acca880a14e4dad052fc65557376, type: 2}
+  - {fileID: 11400000, guid: 4be25e4afde386d4dbcbc510830f0642, type: 2}
+  - {fileID: 11400000, guid: 8b3bd729cff634046b3c92dc8c39546f, type: 2}
+  stageMusic: {fileID: 11400000, guid: 208a9e06284d2174ea1393789bbd8ba9, type: 2}
+  bossMusic: {fileID: 11400000, guid: 7a6f40ab998620e4ea9c0c5352627882, type: 2}
+  background: {fileID: 11400000, guid: 88f9c191d17e9714c897c2e5072864e9, type: 2}

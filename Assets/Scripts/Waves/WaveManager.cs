@@ -11,6 +11,8 @@ namespace AzurProject
 {
     public class WaveManager : MonoBehaviour
     {
+        public static WaveManager Instance { get; private set; }
+
         [Header("Managers")] public StageManager stageManager;
         public BossManager bossManager;
         public DialogueManager dialogueManager;
@@ -26,18 +28,24 @@ namespace AzurProject
         private AudioPlayer musicPlayer;
         private UIUpdate uiUpdate;
 
+        public bool ReachedEnd { get; set; }
+        
         Player player;
         GameObject spawnedBanner;
 
         [Header("Waves")] public Wave[] waves;
         [HideInInspector] public GameObject[] spawnedWaves;
 
-        void Awake()
+        private void Awake()
         {
+            Instance = this;
+            
             gameManager = GameManager.Instance;
             _sceneManager = SceneManager.Instance;
             musicPlayer = AudioPlayer.Instance;
             uiUpdate = FindObjectOfType<UIUpdate>();
+
+            ReachedEnd = false;
         }
 
         public void LoadWaves(Wave[] waves)
@@ -114,7 +122,7 @@ namespace AzurProject
         {
             if (gameManager.spawnedPlayer == null)
             {
-                gameManager.spawnedPlayer = Instantiate(gameManager.player, position, Quaternion.identity);
+                gameManager.spawnedPlayer = Instantiate(gameManager.ryuukoA, position, Quaternion.identity);
             }
             else
             {
@@ -216,9 +224,9 @@ namespace AzurProject
 
         private void Update()
         {
-            if (uiManager.reachedEnd)
+            if (ReachedEnd)
             {
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(InputManager.Instance.Shoot))
                 {
                     stageManager.stageIndex++;
                     if (stageManager.stages.Length > stageManager.stageIndex)
@@ -239,12 +247,17 @@ namespace AzurProject
             {
                 gameManager.spawnedPlayer.GetComponent<Player>().Lives = 0;
                 uiManager.GameOver();
-                StopCoroutine(level);
+                if (level != null)
+                {
+                    StopCoroutine(level);
+                }
             }
         }
 
         private IEnumerator PlayStageCoroutine()
         {
+            ReachedEnd = false;
+            
             musicPlayer.PlayMusic(stageMusicClip.musicClip, stageMusicClip.loopStart); // Plays the Music
 
             uiManager.DisplayCurrentBMGText(stageMusicClip.name);
@@ -279,9 +292,7 @@ namespace AzurProject
 
                     BossWave bossWave = (BossWave) waves[waveIndex];
 
-                    Vector2 bossSpawnPosition = new Vector2(18, 30);
-
-                    bossManager.spawnedBoss = Instantiate(bossWave.Boss, bossSpawnPosition,
+                    bossManager.spawnedBoss = Instantiate(bossWave.Boss, bossWave.bossSpawnPosition,
                         Quaternion.identity, transform);
 
                     if (bossWave.Dialogue1 != null)
@@ -309,10 +320,22 @@ namespace AzurProject
                 }
             }
 
-            musicPlayer.StopMusic();
+            musicPlayer.FadeMusicOut();
             ClearBullets();
             ClearEnemies();
+            EndStage();
+        }
+
+        private void EndStage()
+        {
+            StartCoroutine(EndStageCoroutine());
+        }
+
+        private IEnumerator EndStageCoroutine()
+        {
             uiManager.EndStage();
+            yield return new WaitForSeconds(2);
+            ReachedEnd = true;
         }
     }
 }

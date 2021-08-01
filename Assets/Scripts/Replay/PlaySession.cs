@@ -8,6 +8,6 @@ namespace AzurProject
     {
         public string PlayerName { get; set; }
         public ulong Score { get; set; }
-        public DifficultyTypes difficultyType { get; set; }
+        public DifficultyTypes DifficultyType { get; set; }
     }
 }

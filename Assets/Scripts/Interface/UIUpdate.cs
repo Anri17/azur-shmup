@@ -12,31 +12,30 @@ namespace AzurProject
         public Text scoreNumber;
         public Text livesNumber;
 
-        Player player;
-        GameManager gameManager;
+        private Player _player;
+        private GameManager _gameManager;
 
-        void Awake()
+        private void Awake()
         {
-            gameManager = GameManager.Instance;
+            _gameManager = GameManager.Instance;
         }
 
         public void StartUIUpdate()
         {
-            // player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            player = gameManager.spawnedPlayer.GetComponent<Player>();
+            _player = _gameManager.spawnedPlayer.GetComponent<Player>();
         }
 
         private void Update()
         {
-            if (gameManager.CurrentPlaySession != null)
+            if (_gameManager.CurrentPlaySession != null)
             {
-                scoreNumber.text = gameManager.CurrentPlaySession.Score.ToString("000,000,000,000");
+                scoreNumber.text = _gameManager.CurrentPlaySession.Score.ToString("000,000,000,000");
             }
 
-            if (gameManager.player != null)
+            if (_gameManager.ryuukoA != null)
             {
-                powerLevelNumber.text = player.PowerLevel.ToString("0.##");
-                livesNumber.text = player.Lives.ToString();   
+                powerLevelNumber.text = _player.PowerLevel.ToString("0.##");
+                livesNumber.text = _player.Lives.ToString();   
             }
         }
     }

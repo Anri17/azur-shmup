@@ -17,6 +17,9 @@ namespace AzurProject.Core
         public static readonly Vector2 GAME_FIELD_CENTER = new Vector2(9.0f, 10.5f);
         public static readonly Vector2 DEFAULT_BOSS_POSITION = new Vector2(9.0f, 15.0f);
 
+        // fonts
+        public Font diogenesFont;
+        
         // difficulty packs
         public DifficultyPack easyDifficultyPack;
         public DifficultyPack normalDifficultyPack;
@@ -24,7 +27,7 @@ namespace AzurProject.Core
         public DifficultyPack insaneDifficultyPack;
 
         // Game Assets
-        public GameObject player;
+        public GameObject ryuukoA;
         public GameObject powerItem;
         public GameObject bigPowerItem;
         public GameObject scoreItem;
@@ -38,6 +41,7 @@ namespace AzurProject.Core
         public static GameManager Instance { get; private set; }
         public PlaySession CurrentPlaySession { get; set; }
         public DifficultyPack CurrentDifficultyPack { get; private set; }
+        public bool GamePaused { get; set; }
 
         private void Awake()
         {
@@ -72,7 +76,7 @@ namespace AzurProject.Core
             {
                 PlayerName = "Guest",
                 Score = 0,
-                difficultyType = CurrentDifficultyPack.DifficultyType
+                DifficultyType = CurrentDifficultyPack.DifficultyType
             };
         }
         
@@ -82,14 +86,14 @@ namespace AzurProject.Core
             {
                 PlayerName = "Guest",
                 Score = 0,
-                difficultyType = difficultyTypes
+                DifficultyType = difficultyTypes
             };
         }
 
         public void SaveReplay(PlaySession playSession)
         {
             // TO DO: Save replay. Set Current Replay to null for now.
-            
+            throw new NotImplementedException();
         }
 
         public void DeleteReplay()

@@ -15,47 +15,30 @@ namespace AzurProject
 
         [SerializeField] private Button[] mainMenuButtons;
 
-        private GameManager gameManager;
+        private GameManager _gameManager;
         private SceneManager _sceneManager;
-        private AudioPlayer musicPlayer;
+        private AudioPlayer _musicPlayer;
 
         private void Awake()
         {
-            gameManager = GameManager.Instance;
+            _gameManager = GameManager.Instance;
             _sceneManager = SceneManager.Instance;
-            musicPlayer = AudioPlayer.Instance;
+            _musicPlayer = AudioPlayer.Instance;
         }
 
         private void Start()
         {
-            musicPlayer.PlayMusic(menuMusicTheme, 0);
+            _musicPlayer.PlayMusic(menuMusicTheme, 0);
             HideAllMenus();
             foreach (GameObject menu in menus)
                 if (menu.name.Equals("MainMenu"))
                     menu.SetActive(true);
         }
 
-        private void Update()
-        {
-            // Load test scene
-            if (Input.GetKeyDown(KeyCode.Minus))
-            {
-                if ((Application.CanStreamedLevelBeLoaded("_Tests")))
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("_Tests");
-            }
-        }
-
-        // display the chosen menu
         public void DisplayMenu(GameObject menu)
         {
             HideAllMenus();
             menu.SetActive(true);
-        }
-
-        public void LoadStageEditor()
-        {
-            musicPlayer.StopMusic();
-            _sceneManager.LoadScene(SceneIndex.EDITOR_SCENE);
         }
 
         public void ExitApplication()
@@ -68,18 +51,20 @@ namespace AzurProject
             switch(difficulty.difficulty)
             {
                 case DifficultyTypes.EASY:
-                    OnStartEasyDifficultyButton();
+                    _gameManager.SetDifficultyPack(_gameManager.easyDifficultyPack);
                     break;
                 case DifficultyTypes.NORMAL:
-                    OnStartNormalDifficultyButton();
+                    _gameManager.SetDifficultyPack(_gameManager.normalDifficultyPack);
                     break;
                 case DifficultyTypes.HARD:
-                    OnStartHardDifficultyButton();
+                    _gameManager.SetDifficultyPack(_gameManager.hardDifficultyPack);
                     break;
                 case DifficultyTypes.INSANE:
-                    OnStartInsaneDifficultyButton();
+                    _gameManager.SetDifficultyPack(_gameManager.insaneDifficultyPack);
                     break;
             }
+            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
+            _gameManager.CreateNewReplay();
         }
 
         private void HideAllMenus()
@@ -88,39 +73,6 @@ namespace AzurProject
             {
                 menu.SetActive(false);
             }
-        }
-
-        private void OnStartEasyDifficultyButton()
-        {
-            gameManager.SetDifficultyPack(gameManager.easyDifficultyPack);
-            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
-            
-            gameManager.CreateNewReplay();
-        }
-
-        private void OnStartNormalDifficultyButton()
-        {
-            gameManager.SetDifficultyPack(gameManager.normalDifficultyPack);
-            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
-            
-            gameManager.CreateNewReplay();
-        }
-
-        private void OnStartHardDifficultyButton()
-        {
-            gameManager.SetDifficultyPack(gameManager.hardDifficultyPack);
-            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
-            
-            gameManager.CreateNewReplay();
-        }
-
-        private void OnStartInsaneDifficultyButton()
-        {
-            gameManager.SetDifficultyPack(gameManager.insaneDifficultyPack);
-            
-            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
-            
-            gameManager.CreateNewReplay();
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using AzurProject.Movement;
-using AzurProject.Shooting;
 using UnityEngine;
 
 namespace AzurProject.Enemy

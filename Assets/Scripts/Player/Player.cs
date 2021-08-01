@@ -113,7 +113,10 @@ namespace AzurProject
 
         private void FireBarrage()
         {
-            if (canFire)
+            bool gamePaused = GameManager.Instance.GamePaused;
+            bool playingDialogue = DialogueManager.Instance.PlayingDialogue;
+            
+            if (canFire && !(gamePaused || playingDialogue))
             {
                 if (_playerInput.FireInput && currentBarrage == null)
                 {
@@ -135,7 +138,7 @@ namespace AzurProject
                     }
                 }
             }
-            else
+            else if (fireSoundCoroutine != null)
             {
                 StopCoroutine(fireSoundCoroutine);
                 Destroy(currentBarrage);
@@ -177,7 +180,7 @@ namespace AzurProject
         {
             Die();
             if (Lives >= 0)
-                StartCoroutine(Respawn(position, time));
+                StartCoroutine(RespawnCoroutine(position, time));
         }
 
         public void PlayerCantMove()
@@ -218,7 +221,7 @@ namespace AzurProject
             currentBarrage = Instantiate(barrage, transform.position, mainBarrage.transform.rotation, transform);
         }
 
-        private IEnumerator Respawn(Vector3 position, float time)
+        private IEnumerator RespawnCoroutine(Vector3 position, float time)
         {
             yield return new WaitForSeconds(time);
             SpawnPlayer(position);

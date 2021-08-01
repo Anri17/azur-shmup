@@ -14,6 +14,7 @@ namespace AzurProject
         [Header("Spell")]
         public float chargeTime = 2;
         public GameObject spellAttack;
+        public Vector2 startPosition = new Vector2(0, 0);
         [Header("Drop Count")]
         public int powerItems = 2;
         public int bigPowerItems = 1;

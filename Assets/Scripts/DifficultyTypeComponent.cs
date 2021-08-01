@@ -14,6 +14,12 @@ namespace AzurProject
         EXTRA
     }
 
+    public enum PlayerTypes
+    {
+        RYUUKO_A,
+        RYUUKO_B
+    }
+
     public class DifficultyTypeComponent : MonoBehaviour
     {
         public DifficultyTypes difficulty;

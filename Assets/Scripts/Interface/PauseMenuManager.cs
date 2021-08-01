@@ -38,11 +38,7 @@ namespace AzurProject
 
         public void ResumeGame()
         {
-            _audioPlayer.ResumeMusic();
-            _audioPlayer.PlaySfx(_audioPlayer.resumeSfx);
-            Time.timeScale = 1;
-            pauseMenu.SetActive(false);
-            GameManager.LockCursor();
+            UIManager.Instance.TogglePauseGame();
         }
     }
 }

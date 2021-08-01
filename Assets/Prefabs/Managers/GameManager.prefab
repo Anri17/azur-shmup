@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1a5ec6fba8ef94d9a806b5d02e2a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diogenesFont: {fileID: 12800000, guid: b6e1fde65bb4724459015255f9d1c666, type: 3}
   easyDifficultyPack: {fileID: 11400000, guid: 25a357b4d96ead84f8ff4a2cf00079d1, type: 2}
   normalDifficultyPack: {fileID: 11400000, guid: d072606bf333c3843b345d5bd0ef80bd,
     type: 2}

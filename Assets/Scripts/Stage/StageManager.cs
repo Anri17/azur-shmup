@@ -8,22 +8,25 @@ namespace AzurProject
 {
     public class StageManager : MonoBehaviour
     {
-        [Header("Managers")] [SerializeField] private WaveManager waveManager;
+        [Header("Managers")]
+        [SerializeField] private WaveManager waveManager;
         [SerializeField] private BackgroundManager backgroundManager;
-        private GameManager gameManager;
         
-        [Header("Stages")] public Stage[] stages;
+        private GameManager _gameManager;
+        
+        [Header("Stages")]
+        public Stage[] stages;
         public int stageIndex = 0;
 
-        void Awake() => gameManager = GameManager.Instance;
+        private void Awake() => _gameManager = GameManager.Instance;
 
-        void Start()
+        private void Start()
         {
-            if (gameManager.CurrentDifficultyPack != null)
+            if (_gameManager.CurrentDifficultyPack != null)
             {
                 // Load the stages of the chosen difficulty for use
-                stages = new Stage[gameManager.CurrentDifficultyPack.stages.Length];
-                stages = gameManager.CurrentDifficultyPack.stages;
+                stages = new Stage[_gameManager.CurrentDifficultyPack.stages.Length];
+                stages = _gameManager.CurrentDifficultyPack.stages;
             }
 
             // Start The Wave Manager

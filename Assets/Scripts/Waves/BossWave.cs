@@ -8,6 +8,7 @@ namespace AzurProject
     public class BossWave : Wave
     {
         [SerializeField] GameObject _boss;
+        public Vector2 bossSpawnPosition = new Vector2(18, 30);
         [SerializeField] DialogueConversation dialogue1;
         [SerializeField] DialogueConversation dialogue2;
         [SerializeField] float endDelay = 1f;

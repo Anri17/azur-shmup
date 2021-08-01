@@ -19,14 +19,14 @@ namespace AzurProject
 
         AudioPlayer audioPlayer;
 
-        List<GameObject> buttonClips;
+        private List<GameObject> _buttonClips;
 
         int contentTotalSize = 0;
 
         private void Start()
         {
             audioPlayer = AudioPlayer.Instance;
-            buttonClips = CreateMusicList(musicClips);
+            _buttonClips = CreateMusicList(musicClips);
 
             SetActiveMusicButton();
 
@@ -39,10 +39,10 @@ namespace AzurProject
             musicProgressBar.value = audioPlayer.bgmAudioSource.time;
         }
 
-        List<GameObject> CreateMusicList(MusicClip[] clips)
+        private List<GameObject> CreateMusicList(MusicClip[] clips)
         {
             List<GameObject> buttonClips = new List<GameObject>();
-            int ypos = 0;
+            int yPos = 0;
             for (int i = 0; i < clips.Length; i++)
             {
                 int x = i;
@@ -57,16 +57,16 @@ namespace AzurProject
                 GameObject tempButton = Instantiate(buttonTemplate, musicListContent.transform);
                 tempButton.name = "MusicClip" + (x + 1);
                 tempButton.GetComponentInChildren<Text>().text = $"{i + 1}. {clips[x].musicTitle}";
-                tempButton.GetComponent<RectTransform>().localPosition += new Vector3(0, ypos, 0);
+                tempButton.GetComponent<RectTransform>().localPosition += new Vector3(0, yPos, 0);
                 tempButton.GetComponent<Button>().onClick.AddListener(delegate { RunMusic(musicClips[x]); });
                 buttonClips.Add(tempButton);
-                ypos = ypos - 40;
+                yPos = yPos - 40;
             }
 
             return buttonClips;
         }
 
-        public void RunMusic(MusicClip clip)
+        private void RunMusic(MusicClip clip)
         {
             PlayMusic(clip.musicClip, clip.loopStart);
             composerComment.text = clip.composerComment;
@@ -74,7 +74,7 @@ namespace AzurProject
             SetActiveMusicButton();
         }
 
-        public void PlayMusic(AudioClip clip, int loopStart)
+        private void PlayMusic(AudioClip clip, int loopStart)
         {
             if (audioPlayer.bgmAudioSource.clip != clip)
             {
@@ -85,7 +85,7 @@ namespace AzurProject
             }
         }
 
-        public void StopMusic()
+        private void StopMusic()
         {
             if (audioPlayer.bgmAudioSource.clip != null)
             {
@@ -95,7 +95,7 @@ namespace AzurProject
             }
         }
 
-        public void PlayTrack()
+        private void PlayTrack()
         {
             if (audioPlayer.bgmAudioSource.clip != null)
             {
@@ -104,7 +104,7 @@ namespace AzurProject
             }
         }
 
-        public void PauseMusic()
+        private void PauseMusic()
         {
             if (audioPlayer.bgmAudioSource.clip != null)
             {
@@ -112,7 +112,7 @@ namespace AzurProject
             }
         }
 
-        public void SetTrackTime(float sliderValue)
+        private void SetTrackTime(float sliderValue)
         {
             if (sliderValue < musicProgressBar.maxValue && sliderValue > musicProgressBar.minValue)
             {
@@ -120,9 +120,9 @@ namespace AzurProject
             }
         }
 
-        public void SetActiveMusicButton()
+        private void SetActiveMusicButton()
         {
-            Button[] buttons = ConvertToButtonArray(buttonClips);
+            Button[] buttons = ConvertToButtonArray(_buttonClips);
 
             for (int i = 0; i < musicClips.Length; i++)
             {
@@ -149,10 +149,10 @@ namespace AzurProject
             }
         }
 
-        public Button[] ConvertToButtonArray(List<GameObject> buttonObjects)
+        private Button[] ConvertToButtonArray(List<GameObject> buttonObjects)
         {
             List<Button> resultList = new List<Button>();
-
+            
             foreach (GameObject buttonObject in buttonObjects)
             {
                 resultList.Add(buttonObject.GetComponent<Button>());

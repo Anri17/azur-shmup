@@ -19,6 +19,15 @@ namespace AzurProject
 
             return angle;
         }
+        
+        public static float GetAngle(Vector3 position, Transform target)
+        {
+            Vector3 dir = target.position - position;
+            dir = target.InverseTransformDirection(dir);
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
+
+            return angle;
+        }
 
         public static Vector3 GetDirection(Transform transform, Transform target)
         {

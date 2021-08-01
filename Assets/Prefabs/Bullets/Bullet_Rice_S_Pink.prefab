@@ -70,8 +70,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f5b1ea45f739a43a683585cd23dc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSettings: {fileID: 0}
   speed: 1
   angle: 0
+  delay: 0
 --- !u!114 &-7529500547571515574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +205,8 @@ SpriteRenderer:
   m_SortingLayerID: -133031775
   m_SortingLayer: -2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f96501d1bf4ec04187c449b0da0cffe, type: 3}
+  m_Sprite: {fileID: -6989882439369331861, guid: ebc3e683c39612441b419071b46dbd94,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
