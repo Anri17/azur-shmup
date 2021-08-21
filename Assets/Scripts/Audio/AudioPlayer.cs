@@ -23,7 +23,9 @@ namespace AzurProject
         [Header("Sound Effects")]
         public AudioClip pauseSfx;
         public AudioClip resumeSfx;
+        public AudioClip selectSfx;
         public AudioClip enemyHitSfx;
+        public AudioClip enemyShootSfx;
         public AudioClip enemyDeathSfx;
         public AudioClip playerDeathSfx;
         public AudioClip playerShootSfx;
