@@ -91,7 +91,7 @@ namespace AzurProject
         private void KillBoss()
         {
             _audioPlayer.PlaySfx(_audioPlayer.enemyDeathSfx);
-            WaveManager.ClearBullets();
+            WaveManager.RemoveBulletsFromPlayField();
             StopAllCoroutines();
             DropItems(_currentSpellAttack.powerItems, _currentSpellAttack.bigPowerItems, _currentSpellAttack.scoreItems, _currentSpellAttack.lifeItems, _currentSpellAttack.bombItems);
             _hittable = false;

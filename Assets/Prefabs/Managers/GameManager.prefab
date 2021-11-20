@@ -50,7 +50,7 @@ MonoBehaviour:
   hardDifficultyPack: {fileID: 11400000, guid: a2cb124f765083644b2e0ff59b675a24, type: 2}
   insaneDifficultyPack: {fileID: 11400000, guid: 4be85f8e78a22734eaca579847a8d200,
     type: 2}
-  player: {fileID: 4037159831597851511, guid: bfe6cc0d5ce856c40ab352a71f92f48d, type: 3}
+  ryuukoA: {fileID: 4037159831597851511, guid: bfe6cc0d5ce856c40ab352a71f92f48d, type: 3}
   powerItem: {fileID: 6719004770698810563, guid: 53db7a3d635b9d541bd3d382cb526a47,
     type: 3}
   bigPowerItem: {fileID: 6719004770698810563, guid: 1b8a86d5d6ef98647bad692b90fe14f5,

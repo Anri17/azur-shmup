@@ -15,7 +15,7 @@ namespace AzurProject
         {
             Vector3 dir = target.position - transform.position;
             dir = target.InverseTransformDirection(dir);
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
 
             return angle;
         }
@@ -24,7 +24,7 @@ namespace AzurProject
         {
             Vector3 dir = target.position - position;
             dir = target.InverseTransformDirection(dir);
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
 
             return angle;
         }

@@ -130,11 +130,11 @@ namespace AzurProject
             }
         }
 
-        public static void ClearBullets()
+        public static void RemoveBulletsFromPlayField()
         {
             foreach (GameObject item in GameObject.FindGameObjectsWithTag("EnemyBullet"))
             {
-                Destroy(item);
+                item.GetComponent<Bullet.Bullet>().RemoveFromPlayField();
             }
         }
 
@@ -287,7 +287,7 @@ namespace AzurProject
 
                 if (waves[waveIndex] is BossWave)
                 {
-                    ClearBullets();
+                    RemoveBulletsFromPlayField();
                     ClearEnemies();
 
                     BossWave bossWave = (BossWave) waves[waveIndex];
@@ -307,7 +307,7 @@ namespace AzurProject
                     yield return new WaitUntil(() => bossManager.spawnedBoss == null);
 
                     bossManager.DeactivateBossInterface();
-                    ClearBullets();
+                    RemoveBulletsFromPlayField();
                     ClearEnemies();
 
                     if (bossWave.Dialogue2 != null)
@@ -321,7 +321,7 @@ namespace AzurProject
             }
 
             musicPlayer.FadeMusicOut();
-            ClearBullets();
+            RemoveBulletsFromPlayField();
             ClearEnemies();
             EndStage();
         }

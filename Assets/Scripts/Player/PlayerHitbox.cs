@@ -23,7 +23,7 @@ namespace AzurProject
             {
                 if (collision.gameObject.tag.Equals("EnemyBullet"))
                 {
-                    Destroy(collision.gameObject);
+                    collision.gameObject.GetComponent<Bullet.Bullet>().RemoveFromPlayField();
                     Respawn();
                 }
                 if (collision.gameObject.tag.Equals("Enemy"))

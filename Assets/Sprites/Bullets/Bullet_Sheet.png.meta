@@ -211,40 +211,40 @@ TextureImporter:
     second: Circle_M_Black
   - first:
       213: -634367303662591092
-    second: Tear_S_Red
+    second: Tear_M_Red
   - first:
       213: -186870601298720883
-    second: Tear_S_Orange
+    second: Tear_M_Orange
   - first:
       213: -2548610241901653296
-    second: Tear_S_Yellow
+    second: Tear_M_Yellow
   - first:
       213: 8009522179140258327
-    second: Tear_S_Lime
+    second: Tear_M_Lime
   - first:
       213: 4596414058688458335
-    second: Tear_S_Green
+    second: Tear_M_Green
   - first:
       213: -6347541629319103304
-    second: Tear_S_Teal
+    second: Tear_M_Teal
   - first:
       213: 4434435307436815738
-    second: Tear_S_Cyan
+    second: Tear_M_Cyan
   - first:
       213: 2653465896877410896
-    second: Tear_S_Blue
+    second: Tear_M_Blue
   - first:
       213: -3351968977457772107
-    second: Tear_S_Navy
+    second: Tear_M_Navy
   - first:
       213: 1666553254164861543
-    second: Tear_S_Purple
+    second: Tear_M_Purple
   - first:
       213: 4467071972812979886
-    second: Tear_S_Violet
+    second: Tear_M_Violet
   - first:
       213: 2736860517056534355
-    second: Tear_S_Pink
+    second: Tear_M_Pink
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1154,7 +1154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bullet_Sheet_0
+      name: Circle_L_Red
       rect:
         serializedVersion: 2
         x: 0
@@ -1637,7 +1637,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Red
+      name: Tear_M_Red
       rect:
         serializedVersion: 2
         x: 168
@@ -1645,7 +1645,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1658,7 +1658,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Orange
+      name: Tear_M_Orange
       rect:
         serializedVersion: 2
         x: 182
@@ -1666,7 +1666,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1679,7 +1679,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Yellow
+      name: Tear_M_Yellow
       rect:
         serializedVersion: 2
         x: 196
@@ -1687,7 +1687,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1700,7 +1700,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Lime
+      name: Tear_M_Lime
       rect:
         serializedVersion: 2
         x: 210
@@ -1708,7 +1708,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1721,7 +1721,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Green
+      name: Tear_M_Green
       rect:
         serializedVersion: 2
         x: 224
@@ -1729,7 +1729,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1742,7 +1742,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Teal
+      name: Tear_M_Teal
       rect:
         serializedVersion: 2
         x: 238
@@ -1750,7 +1750,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1763,7 +1763,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Cyan
+      name: Tear_M_Cyan
       rect:
         serializedVersion: 2
         x: 252
@@ -1771,7 +1771,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1784,7 +1784,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Blue
+      name: Tear_M_Blue
       rect:
         serializedVersion: 2
         x: 266
@@ -1792,7 +1792,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1805,7 +1805,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Navy
+      name: Tear_M_Navy
       rect:
         serializedVersion: 2
         x: 280
@@ -1813,7 +1813,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1826,7 +1826,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Purple
+      name: Tear_M_Purple
       rect:
         serializedVersion: 2
         x: 294
@@ -1834,7 +1834,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1847,7 +1847,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Violet
+      name: Tear_M_Violet
       rect:
         serializedVersion: 2
         x: 308
@@ -1855,7 +1855,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1868,7 +1868,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tear_S_Pink
+      name: Tear_M_Pink
       rect:
         serializedVersion: 2
         x: 322
@@ -1876,7 +1876,7 @@ TextureImporter:
         width: 14
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

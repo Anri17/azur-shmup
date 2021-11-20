@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AzurProject.Bullet;
 using UnityEngine;
 using AzurProject.Core;
 using UnityEngine.Serialization;
@@ -15,9 +16,9 @@ namespace AzurProject
 
         [SerializeField] private GameObject[] powerOrbsLevels;
 
-        [FormerlySerializedAs("_powerLevel")] [SerializeField] private float powerLevel = 0f;
-        [FormerlySerializedAs("_lives")] [SerializeField] private int lives = 2;
-        [FormerlySerializedAs("_bombs")] [SerializeField] private int bombs = 2;
+        [SerializeField] private float powerLevel = 0f;
+        [SerializeField] private int lives = 2;
+        [SerializeField] private int bombs = 2;
 
         Coroutine fireSoundCoroutine;
 
@@ -42,12 +43,13 @@ namespace AzurProject
         
         private void Awake()
         {
-            hittable = true;
-            canCollectItems = true;
             playerController = GetComponent<PlayerController>();
             _playerInput = GetComponent<PlayerInput>();
+            
+            hittable = true;
+            canCollectItems = true;
             playerController.canMove = true;
-            PlayerCanMove();
+            
             audioPlayer = AudioPlayer.Instance;
         }
 
@@ -160,33 +162,23 @@ namespace AzurProject
 
         public void SpawnPlayer(Vector3 position)
         {
-            WaveManager.ClearBullets();
+            // BulletManager.Instance.AddAllActiveBulletsToPool();
+            // WaveManager.RemoveBulletsFromPlayField();
             transform.position = position;
             sprites.SetActive(true);
-            GetComponent<PlayerController>().canMove = true;
+            playerController.canMove = true;
             canFire = true;
             canCollectItems = true;
-            PlayerCanMove();
-            GameObject.Find("ItemCollectionArea").GetComponent<ItemCollectionArea>().canSucc = true;
-        }
-
-        public void PlayerCanMove()
-        {
-            StartCoroutine(BecomeVulnerable(5f));
+            StartCoroutine(IvulnerabilityCoroutine(5f));
             playerController.canMove = true;
+            GameObject.Find("ItemCollectionArea").GetComponent<ItemCollectionArea>().canSucc = true;
         }
 
         public void RespawnPlayer(Vector3 position, float time)
         {
-            Die();
+            KillPlayer();
             if (Lives >= 0)
                 StartCoroutine(RespawnCoroutine(position, time));
-        }
-
-        public void PlayerCantMove()
-        {
-            playerController.canMove = false;
-            hittable = false;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -202,17 +194,18 @@ namespace AzurProject
             }
         }
 
-        private void Die()
+        private void KillPlayer()
         {
             Instantiate(GameManager.Instance.deathAnimation, transform.position, Quaternion.identity);
             Lives--;
             PowerLevel = 0;
             Destroy(currentBarrage);
-            PlayerCantMove();
+            playerController.canMove = false;
+            hittable = false;
             canFire = false;
             canCollectItems = false;
             GameObject.Find("ItemCollectionArea").GetComponent<ItemCollectionArea>().canSucc = false;
-            audioPlayer.PlaySfx(audioPlayer.enemyDeathSfx);
+            audioPlayer.PlaySfx(audioPlayer.playerDeathSfx);
             sprites.SetActive(false);
         }
 
@@ -227,7 +220,7 @@ namespace AzurProject
             SpawnPlayer(position);
         }
 
-        private IEnumerator BecomeVulnerable(float timeToWait)
+        private IEnumerator IvulnerabilityCoroutine(float timeToWait)
         {
             yield return new WaitForSeconds(timeToWait);
             hittable = true;

@@ -298,9 +298,11 @@ GameObject:
   - component: {fileID: 9178897303400842291}
   - component: {fileID: 6960331379473753537}
   - component: {fileID: 335538439673951561}
-  - component: {fileID: 9178897303400842290}
-  - component: {fileID: 7463323591609977881}
-  - component: {fileID: 2356596756649635391}
+  - component: {fileID: 8010976515898693269}
+  - component: {fileID: 4406366767165682030}
+  - component: {fileID: 7125796020676688291}
+  - component: {fileID: 7595099079556238584}
+  - component: {fileID: 8731220535074081697}
   m_Layer: 8
   m_Name: Shot
   m_TagString: Enemy
@@ -346,7 +348,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!50 &335538439673951561
 Rigidbody2D:
@@ -369,7 +371,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &9178897303400842290
+--- !u!114 &8010976515898693269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -378,35 +380,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 9178897303400842292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22ccc16bbb6029449088d227e55d855, type: 3}
+  m_Script: {fileID: 11500000, guid: 89b1406cd5fa7b840beace6e5575b459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 5011265821085266591, guid: cb9baf45d7a27f240a6fa313ea421e7f, type: 3}
-  target: {fileID: 4037159831597851511, guid: bfe6cc0d5ce856c40ab352a71f92f48d, type: 3}
-  aimOffset: 0
-  bulletSpeed: 0
-  bulletSettings: {fileID: 0}
-  shotPosition: {fileID: 0}
-  minTimeDelay: 0.5
-  maxTimeDelay: 1
-  fireCount: 0
---- !u!114 &7463323591609977881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9178897303400842292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aadea7025bfc60045bb3f2c9bcfbd565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotPositionType: 0
-  minPos: {x: 0, y: 0}
-  maxPos: {x: 0, y: 0}
-  specificShotPosition: {x: 0, y: 0}
---- !u!114 &2356596756649635391
+  _bulletSettings: {fileID: 4406366767165682030}
+  startDelay: 0
+  loopDelay: 0.5
+  bulletCount: 0
+--- !u!114 &4406366767165682030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,11 +399,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f932cb80d1542af468005d6ce2e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletType: 0
-  shotPosition: {fileID: 7463323591609977881}
-  target: {fileID: 0}
+  bulletType: 69
+  bulletSpawnPosition: {fileID: 7125796020676688291}
+  bulletTarget: {fileID: 7595099079556238584}
+  bulletVelocity: {fileID: 8731220535074081697}
+--- !u!114 &7125796020676688291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178897303400842292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a506b3b7a7a8420288c5153464df14ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnDelay: 0.5
+  type: 0
+  minPos: {x: 0, y: 0}
+  maxPos: {x: 0, y: 0}
+  specificShotPosition: {x: 0, y: 0}
+--- !u!114 &7595099079556238584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178897303400842292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b570cbc47ce218644ac3bfe477490f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawnPosition: {fileID: 7125796020676688291}
+  type: 1
   angleOffset: 0
-  speed: 0
+--- !u!114 &8731220535074081697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178897303400842292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073e25387ba7e9141a70821bf921ad90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  speed: 10
 --- !u!1 &9178897303613187404
 GameObject:
   m_ObjectHideFlags: 0
