@@ -70,10 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f5b1ea45f739a43a683585cd23dc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSettings: {fileID: 0}
-  speed: 1
-  angle: 0
-  delay: 0
+  type: 126
 --- !u!114 &-7529500547571515574
 MonoBehaviour:
   m_ObjectHideFlags: 0

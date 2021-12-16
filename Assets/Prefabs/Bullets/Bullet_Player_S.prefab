@@ -174,14 +174,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8746203252393343279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769386c2426235f42a04f153c9e31b6e, type: 3}
+  m_Script: {fileID: 11500000, guid: d077e13aca1233e40a83b3420b0493cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSettings: {fileID: 0}
-  speed: 750
-  angle: 0
-  delay: 0
-  _damage: 0.8
+  type: 2
+  damage: 1
 --- !u!114 &5134341012368110540
 MonoBehaviour:
   m_ObjectHideFlags: 0
