@@ -48,8 +48,6 @@ namespace AzurProject.Bullet
 
         /* -------------------- BULLET COROUTINES -------------------- */
 
-
-        
         public IEnumerator LinearBulletCoroutine(Bullet bullet)
         {
             while (true)
@@ -77,7 +75,7 @@ namespace AzurProject.Bullet
                     bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                        bulletSettings.bulletVelocity.GetSpeed(),
                                        bulletSettings.bulletTarget.GetAngle(),
-                                       StartCoroutine(LinearBulletCoroutine(bullet)));
+                                       LinearBulletCoroutine);
                     
                     yield return new WaitForSeconds(loopDelay);
                 }
@@ -90,12 +88,33 @@ namespace AzurProject.Bullet
                 bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                    bulletSettings.bulletVelocity.GetSpeed(),
                                    bulletSettings.bulletTarget.GetAngle(),
-                                   StartCoroutine(LinearBulletCoroutine(bullet)));
+                                   LinearBulletCoroutine);
 
                 yield return new WaitForSeconds(loopDelay);
             }
 
             yield return null;
         }
+
+        /* TODO: Cone Coroutine
+        public IEnumerator ConeShotCoroutine(BulletSettings bulletSettings, float startDelay, float loopDelay,
+            float bulletCount)
+        {
+            yield return new WaitForSeconds(startDelay);
+
+            if (bulletCount <= 0)
+            {
+                while (true)
+                {
+                    Bullet bullet = _bulletManager.GetBulletFromPool(bulletSettings.bulletType);
+                    
+                    bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
+                                       bulletSettings.bulletVelocity.GetSpeed(),
+                                       bulletSettings.bulletTarget.GetAngle(),
+                                       StartCoroutine((LinearBulletCoroutine(bullet))));
+                }
+            }
+        }
+        */
     }
 }

@@ -107,10 +107,10 @@ namespace AzurProject.Bullet
         [Header("Bullet Prefabs")] [SerializeField]
         private GameObject[] Bullet_Prefabs;
 
-        public Dictionary<BulletType, List<Bullet>> pooledBullets;
-        public Dictionary<BulletType, List<Bullet>> activeBullets;
+        public Dictionary<BulletType, List<Bullet>> bullet_pool;
+        public Dictionary<BulletType, List<Bullet>> active_bullets;
         
-        private const int AMOUNT_OF_BULLETS_TO_POOL = 10;
+        private const int BULLETS_POOL_START_SIZE = 10;
         
         private void Awake()
         {
@@ -120,56 +120,56 @@ namespace AzurProject.Bullet
 
         private void Start()
         {
-            pooledBullets = new Dictionary<BulletType, List<Bullet>>();
-            activeBullets = new Dictionary<BulletType, List<Bullet>>();
+            bullet_pool = new Dictionary<BulletType, List<Bullet>>();
+            active_bullets = new Dictionary<BulletType, List<Bullet>>();
             
-            foreach (GameObject bulletPrefab in Bullet_Prefabs)
+            foreach (GameObject prefab in Bullet_Prefabs)
             {
-                Bullet prefabBulletType = bulletPrefab.GetComponent<Bullet>();
+                Bullet prefab_bullet = prefab.GetComponent<Bullet>();
                 
-                pooledBullets[prefabBulletType.type] = new List<Bullet>();
-                activeBullets[prefabBulletType.type] = new List<Bullet>();
+                bullet_pool[prefab_bullet.type] = new List<Bullet>();
+                active_bullets[prefab_bullet.type] = new List<Bullet>();
                 
-                for (int i = 0; i < AMOUNT_OF_BULLETS_TO_POOL; i++)
+                for (int i = 0; i < BULLETS_POOL_START_SIZE; i++)
                 {
-                    Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+                    Bullet bullet = Instantiate(prefab).GetComponent<Bullet>();
                     bullet.IsPooled = true;
                     bullet.gameObject.SetActive(false);
-                    pooledBullets[prefabBulletType.type].Add(bullet);
+                    bullet_pool[bullet.type].Add(bullet);
                 }
             }
         }
 
-        public Bullet GetBulletFromPool(BulletType bulletType)
+        public Bullet GetBulletFromPool(BulletType type)
         {
-            foreach (Bullet pooledBullet in pooledBullets[bulletType])
+            foreach (Bullet bullet in bullet_pool[type])
             {
-                if (pooledBullet.IsPooled)
+                if (bullet.IsPooled)
                 {
-                    pooledBullets[bulletType].Remove(pooledBullet);
-                    activeBullets[bulletType].Add(pooledBullet);
+                    bullet_pool[type].Remove(bullet);
+                    active_bullets[type].Add(bullet);
                     
-                    pooledBullet.IsPooled = false;
-                    pooledBullet.gameObject.SetActive(true);
+                    bullet.IsPooled = false;
+                    bullet.gameObject.SetActive(true);
                     
-                    return pooledBullet;
+                    return bullet;
                 }
             }
             
             // Create a new bullet in case the initial pool of bullets is not enough.
-            if (pooledBullets[bulletType].Count == 0)
+            if (bullet_pool[type].Count == 0)
             {
                 Debug.Log("Bullet Pool is empty. Creating new Bullet...");
                 
                 foreach (GameObject bulletPrefab in Bullet_Prefabs)
                 {
                     Bullet bulletPrefabScript = bulletPrefab.GetComponent<Bullet>();
-                    if (bulletPrefabScript.type == bulletType)
+                    if (bulletPrefabScript.type == type)
                     {
                         Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
                         bullet.IsPooled = false;
                         bullet.gameObject.SetActive(true);
-                        activeBullets[bulletType].Add(bullet);
+                        active_bullets[type].Add(bullet);
                         return bullet;
                     }
                 }
@@ -184,16 +184,16 @@ namespace AzurProject.Bullet
             {
                 bullet.IsPooled = true;
                 bullet.gameObject.SetActive(false);
-                if (activeBullets[bullet.type].Contains(bullet)) activeBullets[bullet.type].Remove(bullet);
-                pooledBullets[bullet.type].Add(bullet);
+                if (active_bullets[bullet.type].Contains(bullet)) active_bullets[bullet.type].Remove(bullet);
+                bullet_pool[bullet.type].Add(bullet);
             }
         }
 
         public void AddAllActiveBulletsToPool()
         {
-            foreach (var activeBullet in activeBullets)
+            foreach (var activeBullet in active_bullets)
             {
-                foreach (Bullet bullet in activeBullets[activeBullet.Key])
+                foreach (Bullet bullet in active_bullets[activeBullet.Key])
                 {
                     AddBulletToPool(bullet);
                 }

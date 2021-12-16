@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,6 +8,8 @@ namespace AzurProject.Bullet
     [RequireComponent(typeof(BulletLifeCycle))]
     public class Bullet : MonoBehaviour
     {
+        public delegate IEnumerator BulletBehaviour(Bullet bullet);
+        
         public BulletType type;
 
         public Coroutine movementCoroutine;
@@ -32,18 +35,25 @@ namespace AzurProject.Bullet
             transform.position = Vector3.zero;
             Angle = 0;
             Speed = 0;
-            // I need to stop the coroutine in the shot manager because it was there where I started it in the first place.
+            // I need to stop the movement coroutine in the shot manager because it was there where I started it in the first place.
             // If I don't do this then unity will throw an annoying error for no reason.
-            ShotManager.Instance.StopCoroutine(movementCoroutine);
+            StopCoroutine(movementCoroutine);
             BulletManager.Instance.AddBulletToPool(this);
         }
         
-        public void SetupBullet(Vector2 pos, float speed, float angle, Coroutine movement)
+        /// <summary>
+        /// Starts a bullet
+        /// </summary>
+        /// <param name="pos">The starting position of the bullet</param>
+        /// <param name="speed">The starting movement sleep of the bullet</param>
+        /// <param name="angle">The starting angle of the bullet</param>
+        /// <param name="bulletBehaviour">How the bullet will behave during it's life time</param>
+        public void SetupBullet(Vector2 pos, float speed, float angle, BulletBehaviour bulletBehaviour)
         {
             transform.position = pos;
             Speed = speed;
             Angle = angle;
-            movementCoroutine = movement;
+            movementCoroutine = StartCoroutine(bulletBehaviour(this));
             IsPooled = false;
         }
     }
