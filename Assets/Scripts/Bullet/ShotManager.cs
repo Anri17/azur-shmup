@@ -52,7 +52,7 @@ namespace AzurProject.Bullet
         {
             while (true)
             {
-                bullet.gameObject.transform.Translate(-bullet.gameObject.transform.up * Time.deltaTime * bullet.Speed);
+                bullet.gameObject.transform.Translate(bullet.gameObject.transform.up * Time.deltaTime * bullet.Speed);
                 yield return null;
             }
         }
@@ -70,7 +70,7 @@ namespace AzurProject.Bullet
             {
                 while (true)
                 {
-                    Bullet bullet = _bulletManager.GetBulletFromPool(bulletSettings.bulletType);
+                    Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletType);
                     
                     bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                        bulletSettings.bulletVelocity.GetSpeed(),
@@ -83,7 +83,7 @@ namespace AzurProject.Bullet
 
             for (int i = 0; i < bulletCount; i++)
             {
-                Bullet bullet = _bulletManager.GetBulletFromPool(bulletSettings.bulletType);
+                Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletType);
                 
                 bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                    bulletSettings.bulletVelocity.GetSpeed(),

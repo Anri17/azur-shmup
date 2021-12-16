@@ -28,8 +28,8 @@ namespace AzurProject
 
         [HideInInspector] public bool canCollectItems = true;
         bool canFire = true;
-        GameObject currentBarrage;
-        GameObject mainBarrage;
+        GameObject current_shot;
+        GameObject main_shot;
         GameObject currentPowerLevelOrbs;
         int currentPowerLevel;
 
@@ -64,71 +64,71 @@ namespace AzurProject
             {
                 Destroy(currentPowerLevelOrbs);
                 currentPowerLevelOrbs = Instantiate(powerOrbsLevels[0], sprites.transform);
-                SetBarrage(barrages[0]);
+                Shot_Set(barrages[0]);
                 currentPowerLevel = 0;
             }
             else if ((PowerLevel >= 1.0f && PowerLevel < 2.0f) && currentPowerLevel != 1) // Level 1 Barrage
             {
                 Destroy(currentPowerLevelOrbs);
                 currentPowerLevelOrbs = Instantiate(powerOrbsLevels[1], sprites.transform);
-                SetBarrage(barrages[1]);
+                Shot_Set(barrages[1]);
                 currentPowerLevel = 1;
             }
             else if ((PowerLevel >= 2.0f && PowerLevel < 3.0f) && currentPowerLevel != 2) // Level 2 Barrage
             {
                 Destroy(currentPowerLevelOrbs);
                 currentPowerLevelOrbs = Instantiate(powerOrbsLevels[2], sprites.transform);
-                SetBarrage(barrages[2]);
+                Shot_Set(barrages[2]);
                 currentPowerLevel = 2;
             }
             else if ((PowerLevel >= 3.0f && PowerLevel < 4.0f) && currentPowerLevel != 3) // Level 3 Barrage
             {
                 Destroy(currentPowerLevelOrbs);
                 currentPowerLevelOrbs = Instantiate(powerOrbsLevels[3], sprites.transform);
-                SetBarrage(barrages[3]);
+                Shot_Set(barrages[3]);
                 currentPowerLevel = 3;
             }
             else if (PowerLevel == 4 && currentPowerLevel != 4)
             {
                 Destroy(currentPowerLevelOrbs);
                 currentPowerLevelOrbs = Instantiate(powerOrbsLevels[4], sprites.transform);
-                SetBarrage(barrages[4]);
+                Shot_Set(barrages[4]);
                 currentPowerLevel = 4;
             }
 
-            FireBarrage();
+            Shot_Fire();
         }
 
-        private void SetBarrage(GameObject barrage)
+        private void Shot_Set(GameObject shot)
         {
-            if (mainBarrage != barrage)
+            if (main_shot != shot)
             {
-                AssignBarrage(barrage);
+                main_shot = shot;
                 // update barrage if firing
                 if (Input.GetButton("Fire1"))
                 {
-                    Destroy(currentBarrage);
-                    SpawnBarrage(mainBarrage);
+                    Destroy(current_shot);
+                    SpawnBarrage(main_shot);
                 }
             }
         }
 
-        private void FireBarrage()
+        private void Shot_Fire()
         {
             bool gamePaused = GameManager.Instance.GamePaused;
             bool playingDialogue = DialogueManager.Instance.PlayingDialogue;
             
             if (canFire && !(gamePaused || playingDialogue))
             {
-                if (_playerInput.FireInput && currentBarrage == null)
+                if (_playerInput.FireInput && current_shot == null)
                 {
-                    SpawnBarrage(mainBarrage);
+                    SpawnBarrage(main_shot);
                     fireSoundCoroutine = StartCoroutine(FireSoundCoroutine());
                 }
-                else if (!_playerInput.FireInput && currentBarrage != null)
+                else if (!_playerInput.FireInput && current_shot != null)
                 {
                     StopCoroutine(fireSoundCoroutine);
-                    Destroy(currentBarrage);
+                    Destroy(current_shot);
                     for (int i = 0; i < transform.childCount; i++)
                     {
                         if (transform.GetChild(i).tag.Equals("PlayerBullet"))
@@ -143,21 +143,8 @@ namespace AzurProject
             else if (fireSoundCoroutine != null)
             {
                 StopCoroutine(fireSoundCoroutine);
-                Destroy(currentBarrage);
+                Destroy(current_shot);
             }
-        }
-
-        public void AssignBarrage(GameObject barrage)
-        {
-            mainBarrage = barrage;
-        }
-
-        public void AddValues(float powerLevel, int score, int lives, int bombs)
-        {
-            PowerLevel += powerLevel;
-            GameManager.Instance.CurrentPlaySession.Score += (ulong)score;
-            Bombs += bombs;
-            Lives += lives;
         }
 
         public void SpawnPlayer(Vector3 position)
@@ -189,7 +176,12 @@ namespace AzurProject
                 int scoreToAdd = collision.GetComponent<Collectable>().scoreWorth;
                 int livesToAdd = collision.GetComponent<Collectable>().livesWorth;
                 int bombsToAdd = collision.GetComponent<Collectable>().bombsWorth;
-                AddValues(powerToAdd, scoreToAdd, livesToAdd, bombsToAdd);
+                
+                PowerLevel += powerToAdd;
+                GameManager.Instance.CurrentPlaySession.Score += (ulong)scoreToAdd;
+                Bombs += bombsToAdd;
+                Lives += livesToAdd;
+                
                 Destroy(collision.gameObject);
             }
         }
@@ -199,7 +191,7 @@ namespace AzurProject
             Instantiate(GameManager.Instance.deathAnimation, transform.position, Quaternion.identity);
             Lives--;
             PowerLevel = 0;
-            Destroy(currentBarrage);
+            Destroy(current_shot);
             playerController.canMove = false;
             hittable = false;
             canFire = false;
@@ -211,7 +203,7 @@ namespace AzurProject
 
         private void SpawnBarrage(GameObject barrage)
         {
-            currentBarrage = Instantiate(barrage, transform.position, mainBarrage.transform.rotation, transform);
+            current_shot = Instantiate(barrage, transform.position, main_shot.transform.rotation, transform);
         }
 
         private IEnumerator RespawnCoroutine(Vector3 position, float time)

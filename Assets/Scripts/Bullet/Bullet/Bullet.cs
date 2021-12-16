@@ -25,7 +25,7 @@ namespace AzurProject.Bullet
             set
             {
                 _angle = value;
-                transform.rotation = Quaternion.Euler(0, 0, _angle);
+                transform.rotation = Quaternion.Euler(0, 0, _angle/2.0f); // _angle is being doubled, and I don't know why, so it is being divided by 2.0f
             }
         }
         public bool IsPooled { get; set; } = true;
@@ -38,7 +38,7 @@ namespace AzurProject.Bullet
             // I need to stop the movement coroutine in the shot manager because it was there where I started it in the first place.
             // If I don't do this then unity will throw an annoying error for no reason.
             StopCoroutine(movementCoroutine);
-            BulletManager.Instance.AddBulletToPool(this);
+            BulletManager.Instance.BulletPool_Add_Bullet(this);
         }
         
         /// <summary>

@@ -104,13 +104,12 @@ namespace AzurProject.Bullet
     {
         public static BulletManager Instance { get; private set; }
 
-        [Header("Bullet Prefabs")] [SerializeField]
-        private GameObject[] Bullet_Prefabs;
+        [SerializeField] private GameObject[] Bullet_Prefabs;
 
         public Dictionary<BulletType, List<Bullet>> bullet_pool;
         public Dictionary<BulletType, List<Bullet>> active_bullets;
         
-        private const int BULLETS_POOL_START_SIZE = 10;
+        private const int BULLETS_POOL_START_SIZE = 1200; // this number will be tweaked multiple times through out development
         
         private void Awake()
         {
@@ -140,7 +139,13 @@ namespace AzurProject.Bullet
             }
         }
 
-        public Bullet GetBulletFromPool(BulletType type)
+        /// <summary>
+        /// Takes a bullet from the pool and returns it
+        /// </summary>
+        /// <param name="type">The type of bullet to be picked from the pool and returned</param>
+        /// <returns>An active bullet</returns>
+        /// <exception cref="Exception">Invalid bullet type</exception>
+        public Bullet BulletPool_Get_Bullet(BulletType type)
         {
             foreach (Bullet bullet in bullet_pool[type])
             {
@@ -178,7 +183,11 @@ namespace AzurProject.Bullet
             throw new Exception("Unable to get bullet from Pool.");
         }
 
-        public void AddBulletToPool(Bullet bullet)
+        /// <summary>
+        /// Adds an active bullet to the pool
+        /// </summary>
+        /// <param name="bullet">Active bullet to be added to the pool</param>
+        public void BulletPool_Add_Bullet(Bullet bullet)
         {
             if (!bullet.IsPooled)
             {
@@ -189,13 +198,16 @@ namespace AzurProject.Bullet
             }
         }
 
-        public void AddAllActiveBulletsToPool()
+        /// <summary>
+        /// Adds all active bullets to the pool
+        /// </summary>
+        public void BulletPool_Add_All_Active_Bullets()
         {
             foreach (var activeBullet in active_bullets)
             {
                 foreach (Bullet bullet in active_bullets[activeBullet.Key])
                 {
-                    AddBulletToPool(bullet);
+                    BulletPool_Add_Bullet(bullet);
                 }
             }
         }
