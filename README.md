@@ -6,7 +6,12 @@ For anyone interested, the last playable version of the game which I submited fo
 
 # Setup
 
-IMPORTANT: This project was last opened with version 2020.3.21f1 of Unity (You can find it here: https://unity3d.com/unity/whats-new/2020.3.21)
+This project was last opened with version 2020.3.26f1 of Unity.
 
 1. Clone the repository
-2. Open the project with the specified unity version
+2. Open the project with the unity version specified above.
+
+# IMPORTANT
+
+This version of the project is saved both for future reference and for historic reasons.
+

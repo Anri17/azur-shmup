@@ -19,33 +19,6 @@ namespace AzurProject.Bullet
         }
 
 
-        /* ----------------------- FIRE FUNCTIONS ----------------------- */
-
-
-        public Bullet CreateShotA1(Vector2 pos, float speed, float angle, GameObject graphic, float delay)
-        {
-            GameObject gameObject = Instantiate(graphic, pos, Quaternion.identity);
-
-            Bullet bullet = gameObject.GetComponent<Bullet>();
-
-            bullet.Speed = speed;
-            bullet.Angle = angle;
-
-            return bullet;
-        }
-
-        public Bullet CreateShotA2(Vector2 pos, float speed, float angle, float accel, float maxSpeed,
-            GameObject graphic,
-            float delay)
-        {
-            GameObject gameObject = Instantiate(graphic, pos, Quaternion.identity);
-
-            Bullet bullet = gameObject.GetComponent<Bullet>();
-
-            return new Bullet();
-        }
-
-
         /* -------------------- BULLET COROUTINES -------------------- */
 
         public IEnumerator LinearBulletCoroutine(Bullet bullet)
@@ -61,7 +34,7 @@ namespace AzurProject.Bullet
         /* -------------------- SHOT COROUTINES -------------------- */
 
 
-        public IEnumerator LinearShotCoroutine(BulletSettings bulletSettings, float startDelay, float loopDelay,
+        public IEnumerator LinearPatternCoroutine(BulletSettings bulletSettings, float startDelay, float loopDelay,
             float bulletCount)
         {
             yield return new WaitForSeconds(startDelay);
@@ -70,7 +43,7 @@ namespace AzurProject.Bullet
             {
                 while (true)
                 {
-                    Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletType);
+                    Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletSprite);
                     
                     bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                        bulletSettings.bulletVelocity.GetSpeed(),
@@ -83,7 +56,7 @@ namespace AzurProject.Bullet
 
             for (int i = 0; i < bulletCount; i++)
             {
-                Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletType);
+                Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletSprite);
                 
                 bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
                                    bulletSettings.bulletVelocity.GetSpeed(),

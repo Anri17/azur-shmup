@@ -10,7 +10,7 @@ namespace AzurProject.Bullet
     {
         public delegate IEnumerator BulletBehaviour(Bullet bullet);
         
-        public BulletType type;
+        public BulletSprite type;
 
         public Coroutine movementCoroutine;
         

@@ -5,11 +5,23 @@ using UnityEngine;
 
 namespace AzurProject.Bullet
 {
+    public enum PatternType
+    {
+        LINEAR,
+        CONE,
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
     [RequireComponent(typeof(BulletSettings))]
     public class Shot : MonoBehaviour
     {
+        public PatternType patternType;
+
+        public float startDelay;
+        public float loopDelay;
+        public float bulletCount;
+
         protected BulletManager _bulletManager;
         protected ShotManager _shotManager;
 
@@ -44,8 +56,15 @@ namespace AzurProject.Bullet
 
         protected virtual Coroutine Shoot()
         {
-            Debug.Log("If you're seeing this message then that means that the Shoot() functions in the Shoot class of debug is being called. This should not be happening.");
-            throw new Exception("Unexpected call to parent method.");
+            switch (patternType)
+            {
+                case PatternType.LINEAR:
+                {
+                    return StartCoroutine(_shotManager.LinearPatternCoroutine(_bulletSettings, startDelay, loopDelay, bulletCount));
+                } 
+            }
+
+            throw new Exception("Pattern not defined.");
         }
         
         private void OnTriggerStay2D(Collider2D collision)
