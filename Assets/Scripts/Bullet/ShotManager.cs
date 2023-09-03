@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 using AzurShmup.Bullet;
 using System;
 using System.Runtime.InteropServices.ComTypes;
+using AzurShmup.Core;
 
 namespace AzurShmup.Stage
 {
@@ -90,8 +91,11 @@ namespace AzurShmup.Stage
         {
             while (true)
             {
-                bullet.transform.rotation = Quaternion.Euler(0, 0, bulletBehaviourBasicA.angle);
-                bullet.transform.Translate(bullet.transform.up * bulletBehaviourBasicA.speed * Time.deltaTime, Space.World);
+                if (!GameManager.Instance.GamePaused)
+                {
+                    bullet.transform.rotation = Quaternion.Euler(0, 0, bulletBehaviourBasicA.angle);
+                    bullet.transform.Translate(bullet.transform.up * bulletBehaviourBasicA.speed * Time.deltaTime, Space.World);
+                }
                 yield return null;
             }
         }
@@ -102,10 +106,13 @@ namespace AzurShmup.Stage
             float angle = 0;
             while (true)
             {
-                targetPos = (Vector2)bullet.transform.position + bulletBehaviourBasicB.speed;
-                angle = AzurShmupUtilities.GetAngleVector2(bullet.transform.position, targetPos) - 90;
-                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
-                bullet.transform.Translate(bulletBehaviourBasicB.speed * Time.deltaTime, Space.World);
+                if (!GameManager.Instance.GamePaused)
+                {
+                    targetPos = (Vector2)bullet.transform.position + bulletBehaviourBasicB.speed;
+                    angle = AzurShmupUtilities.GetAngleVector2(bullet.transform.position, targetPos) - 90;
+                    bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+                    bullet.transform.Translate(bulletBehaviourBasicB.speed * Time.deltaTime, Space.World);
+                }
                 yield return null;
             }
         }
@@ -116,13 +123,15 @@ namespace AzurShmup.Stage
             float speed = bulletBehaviourAcceleratingA.speed;
             while (true)
             {
-                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
-                bullet.transform.Translate(bullet.transform.up * speed * Time.deltaTime, Space.World);
-                angle += bulletBehaviourAcceleratingA.angle_change;
-                speed += bulletBehaviourAcceleratingA.speed_change;
-                speed = speed > bulletBehaviourAcceleratingA.speed_max ? bulletBehaviourAcceleratingA.speed_max : speed;
-
-                yield return null;
+                if (!GameManager.Instance.GamePaused)
+                {
+                    bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+                    bullet.transform.Translate(bullet.transform.up * speed * Time.deltaTime, Space.World);
+                    angle += bulletBehaviourAcceleratingA.angle_change;
+                    speed += bulletBehaviourAcceleratingA.speed_change;
+                    speed = speed > bulletBehaviourAcceleratingA.speed_max ? bulletBehaviourAcceleratingA.speed_max : speed;
+                }
+                yield return null;  
             }
         }
     }

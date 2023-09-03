@@ -2060,7 +2060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127fb317964f8624e8a78a5c4c7f166c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletGraphicType: 0
+  bulletGraphicType: 20
   bulletSpawnPositionType: 0
   bulletBehaviourType: 2
   shotPatternType: 0
@@ -2077,10 +2077,11 @@ MonoBehaviour:
     basicB:
       speed: {x: 2, y: 0}
     acceleratingA:
-      angle: 0
-      speed: 2
-      angle_change: 0
-      speed_change: 0.5
+      angle: 180
+      speed: 0.89
+      angle_change: 0.1
+      speed_change: 0.05
+      speed_max: 15
   shotPattern:
     type: 0
     linear:
@@ -2131,7 +2132,7 @@ MonoBehaviour:
         loopDelay: 1
         bulletCount: 0
       startDelay: 0
-      loopDelay: 1
+      loopDelay: 0.25
       bulletCount: 0
   loopShot: 0
   loopDelay: 0
