@@ -2062,20 +2062,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletGraphicType: 0
   bulletSpawnPositionType: 0
-  bulletBehaviourType: 0
+  bulletBehaviourType: 2
   shotPatternType: 0
-  bulletSpawnDelay: 0
+  bulletSpawnDelay: 2.3
   bulletSpawnPosition:
     type: 0
     position: {x: 9, y: 16}
     offset: {x: 0, y: 0}
   bulletBehaviour:
-    type: 0
+    type: 2
     basicA:
       angle: 0
       speed: 2
     basicB:
       speed: {x: 2, y: 0}
+    acceleratingA:
+      angle: 0
+      speed: 2
+      angle_change: 0
+      speed_change: 0.5
   shotPattern:
     type: 0
     linear:
@@ -2128,6 +2133,8 @@ MonoBehaviour:
       startDelay: 0
       loopDelay: 1
       bulletCount: 0
+  loopShot: 0
+  loopDelay: 0
 --- !u!114 &2107947647
 MonoBehaviour:
   m_ObjectHideFlags: 0

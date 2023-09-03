@@ -86,26 +86,42 @@ namespace AzurShmup.Stage
 
         /* ------------------- BULLET COROUTINES -------------------- */
 
-        public IEnumerator BulletBehaviourBasicACoroutine(Bullet.Bullet bullet, float angle, float speed)
+        public IEnumerator BulletBehaviourBasicACoroutine(Bullet.Bullet bullet, BulletBehaviourBasicA bulletBehaviourBasicA)
         {
             while (true)
             {
-                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
-                bullet.transform.Translate(bullet.transform.up * speed * Time.deltaTime, Space.World);
+                bullet.transform.rotation = Quaternion.Euler(0, 0, bulletBehaviourBasicA.angle);
+                bullet.transform.Translate(bullet.transform.up * bulletBehaviourBasicA.speed * Time.deltaTime, Space.World);
                 yield return null;
             }
         }
 
-        public IEnumerator BulletBehaviourBasicBCoroutine(Bullet.Bullet bullet, Vector2 direction)
+        public IEnumerator BulletBehaviourBasicBCoroutine(Bullet.Bullet bullet, BulletBehaviourBasicB bulletBehaviourBasicB)
         {
             Vector2 targetPos;
             float angle = 0;
             while (true)
             {
-                targetPos = (Vector2)bullet.transform.position + direction;
+                targetPos = (Vector2)bullet.transform.position + bulletBehaviourBasicB.speed;
                 angle = AzurShmupUtilities.GetAngleVector2(bullet.transform.position, targetPos) - 90;
                 bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
-                bullet.transform.Translate(direction * Time.deltaTime, Space.World);
+                bullet.transform.Translate(bulletBehaviourBasicB.speed * Time.deltaTime, Space.World);
+                yield return null;
+            }
+        }
+
+        public IEnumerator BulletBehaviourAcceleratingACoroutine(Bullet.Bullet bullet, BulletBehaviourAcceleratingA bulletBehaviourAcceleratingA)
+        {
+            float angle = bulletBehaviourAcceleratingA.angle;
+            float speed = bulletBehaviourAcceleratingA.speed;
+            while (true)
+            {
+                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+                bullet.transform.Translate(bullet.transform.up * speed * Time.deltaTime, Space.World);
+                angle += bulletBehaviourAcceleratingA.angle_change;
+                speed += bulletBehaviourAcceleratingA.speed_change;
+                speed = speed > bulletBehaviourAcceleratingA.speed_max ? bulletBehaviourAcceleratingA.speed_max : speed;
+
                 yield return null;
             }
         }

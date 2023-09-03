@@ -4,5 +4,6 @@ namespace AzurShmup.Bullet
 	{
 		BASIC_A,
 		BASIC_B,
+		ACCELERATING_A
 	}
 }

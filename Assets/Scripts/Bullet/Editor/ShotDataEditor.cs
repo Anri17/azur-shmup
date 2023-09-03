@@ -49,6 +49,15 @@ namespace AzurShmup.Bullet
                 shotData.bulletBehaviour.type = BulletBehaviourType.BASIC_B;
                 shotData.bulletBehaviour.basicB.speed = EditorGUILayout.Vector2Field("Speed", shotData.bulletBehaviour.basicB.speed);
             }
+            else if (shotData.bulletBehaviourType == BulletBehaviourType.ACCELERATING_A)
+            {
+                shotData.bulletBehaviour.type = BulletBehaviourType.ACCELERATING_A;
+                shotData.bulletBehaviour.acceleratingA.angle = EditorGUILayout.FloatField("Angle", shotData.bulletBehaviour.acceleratingA.angle);
+                shotData.bulletBehaviour.acceleratingA.speed = EditorGUILayout.FloatField("Speed", shotData.bulletBehaviour.acceleratingA.speed);
+                shotData.bulletBehaviour.acceleratingA.angle_change = EditorGUILayout.FloatField("Angle Change", shotData.bulletBehaviour.acceleratingA.angle_change);
+                shotData.bulletBehaviour.acceleratingA.speed_change = EditorGUILayout.FloatField("Speed Change", shotData.bulletBehaviour.acceleratingA.speed_change);
+                shotData.bulletBehaviour.acceleratingA.speed_max = EditorGUILayout.FloatField("Speed Max", shotData.bulletBehaviour.acceleratingA.speed_max);
+            }
 
             EditorGUILayout.Space();
             shotData.shotPatternType = (ShotPatternType)EditorGUILayout.EnumPopup("Shot Pattern Type", shotData.shotPatternType);

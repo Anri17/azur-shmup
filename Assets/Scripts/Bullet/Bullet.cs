@@ -45,11 +45,15 @@ namespace AzurShmup.Bullet
             {
                 case BulletBehaviourType.BASIC_A:
                 {
-                        behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicACoroutine(this, bulletBehaviour.basicA.angle, bulletBehaviour.basicA.speed));
+                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicACoroutine(this, bulletBehaviour.basicA));
                 } break;
                 case BulletBehaviourType.BASIC_B:
-                    {
-                        behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicBCoroutine(this, bulletBehaviour.basicB.speed));
+                {
+                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicBCoroutine(this, bulletBehaviour.basicB));
+                } break;
+                case BulletBehaviourType.ACCELERATING_A:
+                {
+                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourAcceleratingACoroutine(this, bulletBehaviour.acceleratingA));
                 } break;
             }
         }
