@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce5b597134abed46b799d4bea73001b, type: 3}
+  m_Name: Debug_Event00_LoadBackground
+  m_EditorClassIdentifier: 
+  Delay: 1
+  Duration: 1
+  Background: {fileID: 11400000, guid: f34dcceee78a49249ad4aceadc67770e, type: 2}

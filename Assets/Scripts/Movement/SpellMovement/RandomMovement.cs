@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
-using AzurProject.Core;
+using AzurShmup.Core;
 
-namespace AzurProject.Movement
+namespace AzurShmup.Movement
 {
     public class RandomMovement : Movement
     {

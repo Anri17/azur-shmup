@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class PointToTarget : MonoBehaviour
     {
@@ -12,7 +12,7 @@ namespace AzurProject
         void Start()
         {
             direction = target.transform.position - transform.position;
-            Debug.Log(direction);
+            UnityEngine.Debug.Log(direction);
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }

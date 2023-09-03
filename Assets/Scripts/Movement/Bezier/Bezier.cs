@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AzurProject.Movement
+namespace AzurShmup.Movement
 {
     public static class Bezier
     {

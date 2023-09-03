@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using AzurProject.Core;
-using SceneManager = AzurProject.Core.SceneManager;
+using AzurShmup.Core;
+using SceneManager = AzurShmup.Core.SceneManager;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
     public class PauseMenuManager : MonoBehaviour
     {
@@ -26,19 +26,19 @@ namespace AzurProject
         {
             _sceneManager.LoadScene((int)SceneIndex.MENU_SCENE);
             Time.timeScale = 1;
-            _gameManager.DeleteReplay();
+            _gameManager.EndPlaySession();
         }
 
         public void RestartLevel()
         {
             _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
             Time.timeScale = 1;
-            _gameManager.ResetReplay();
+            _gameManager.ResetPlaySession();
         }
 
         public void ResumeGame()
         {
-            UIManager.Instance.TogglePauseGame();
+            UIManager.Instance.TogglePauseMenu();
         }
     }
 }

@@ -177,7 +177,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d077e13aca1233e40a83b3420b0493cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  settings:
+    behaviour: 0
+    graphic: 0
+    delay: 0
+    position:
+      type: 0
+      specificPosition: {x: 0, y: 0}
+    angleA: 0
+    speedA: 0
+    speedB: {x: 0, y: 0}
+  graphic: 2
   damage: 1
 --- !u!114 &5134341012368110540
 MonoBehaviour:

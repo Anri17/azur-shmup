@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
-    [CreateAssetMenu(fileName = "New Stage Background", menuName = "Stage/Stage Background")]
+    [CreateAssetMenu(fileName = "New Stage Background", menuName = "Stage/Background")]
     public class StageBackground : ScriptableObject
     {
         public GameObject background;

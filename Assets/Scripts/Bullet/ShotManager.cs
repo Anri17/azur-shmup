@@ -1,93 +1,113 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 using UnityEngine.Serialization;
+using AzurShmup.Bullet;
+using System;
+using System.Runtime.InteropServices.ComTypes;
 
-namespace AzurProject.Bullet
+namespace AzurShmup.Stage
 {
-    public class ShotManager : MonoBehaviour
+    public class ShotManager : Singleton<ShotManager>
     {
-        public static ShotManager Instance { get; private set; }
-
-        private BulletManager _bulletManager;
+        [SerializeField] private BulletPool _bulletPool;
 
         private void Awake()
         {
-            if (Instance != null) Destroy(this);
-            else Instance = this;
-
-            _bulletManager = BulletManager.Instance;
+            MakeSingleton();
         }
 
+        public Coroutine CreateShot(
+            ShotData shotData)
+        {
+            switch (shotData.shotPattern.type)
+            {
+                case ShotPatternType.LINEAR:
+                    {
+                        return StartCoroutine(ShotPatternLinearCoroutine(shotData));
+                    }
+            }
 
-        /* -------------------- BULLET COROUTINES -------------------- */
+            throw new Exception("Shot pattern not defined.");
+        }
 
-        public IEnumerator LinearBulletCoroutine(Bullet bullet)
+        // Remove bullet from Play
+        public void Add_Bullet_To_Idle_Pool(Bullet.Bullet bullet) => _bulletPool.Add_Bullet_To_Idle_Pool(bullet);
+
+        private Bullet.Bullet InstantiateBullet(
+            BulletGraphicType bulletGraphicType,
+            BulletSpawnPosition bulletSpawnPosition,
+            BulletBehaviour bulletBehaviour,
+            float bulletSpawnDelay)
+        {
+            Bullet.Bullet bullet = _bulletPool.Get_Bullet(bulletGraphicType);
+
+            bullet.StartBullet(bulletSpawnPosition, bulletBehaviour);
+
+            return bullet;
+        }
+
+        /* -------------------- SHOT COROUTINES -------------------- */
+        public IEnumerator ShotPatternLinearCoroutine(
+            ShotData shotData)
+        {
+            do
+            {
+                yield return new WaitForSeconds(shotData.shotPattern.linear.startDelay);
+
+                if (shotData.shotPattern.linear.bulletCount <= 0)
+                {
+                    while (true)
+                    {
+                        Bullet.Bullet bullet = InstantiateBullet(
+                            shotData.bulletGraphicType,
+                            shotData.bulletSpawnPosition,
+                            shotData.bulletBehaviour,
+                            shotData.bulletSpawnDelay);
+
+                        yield return new WaitForSeconds(shotData.shotPattern.linear.loopDelay);
+                    }
+                }
+                for (int i = 0; i < shotData.shotPattern.linear.bulletCount; i++)
+                {
+                    Bullet.Bullet bullet = InstantiateBullet(
+                        shotData.bulletGraphicType,
+                        shotData.bulletSpawnPosition,
+                        shotData.bulletBehaviour,
+                        shotData.bulletSpawnDelay);
+
+                    yield return new WaitForSeconds(shotData.shotPattern.linear.loopDelay);
+                }
+
+                yield return new WaitForSeconds(shotData.loopDelay);
+            } while (shotData.loopShot);
+            yield return null;
+        }
+
+        /* ------------------- BULLET COROUTINES -------------------- */
+
+        public IEnumerator BulletBehaviourBasicACoroutine(Bullet.Bullet bullet, float angle, float speed)
         {
             while (true)
             {
-                bullet.gameObject.transform.Translate(bullet.gameObject.transform.up * Time.deltaTime * bullet.Speed);
+                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+                bullet.transform.Translate(bullet.transform.up * speed * Time.deltaTime, Space.World);
                 yield return null;
             }
         }
 
-
-        /* -------------------- SHOT COROUTINES -------------------- */
-
-
-        public IEnumerator LinearPatternCoroutine(BulletSettings bulletSettings, float startDelay, float loopDelay,
-            float bulletCount)
+        public IEnumerator BulletBehaviourBasicBCoroutine(Bullet.Bullet bullet, Vector2 direction)
         {
-            yield return new WaitForSeconds(startDelay);
-
-            if (bulletCount <= 0)
+            Vector2 targetPos;
+            float angle = 0;
+            while (true)
             {
-                while (true)
-                {
-                    Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletSprite);
-                    
-                    bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
-                                       bulletSettings.bulletVelocity.GetSpeed(),
-                                       bulletSettings.bulletTarget.GetAngle(),
-                                       LinearBulletCoroutine);
-                    
-                    yield return new WaitForSeconds(loopDelay);
-                }
-            }
-
-            for (int i = 0; i < bulletCount; i++)
-            {
-                Bullet bullet = _bulletManager.BulletPool_Get_Bullet(bulletSettings.bulletSprite);
-                
-                bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
-                                   bulletSettings.bulletVelocity.GetSpeed(),
-                                   bulletSettings.bulletTarget.GetAngle(),
-                                   LinearBulletCoroutine);
-
-                yield return new WaitForSeconds(loopDelay);
-            }
-
-            yield return null;
-        }
-
-        /* TODO: Cone Coroutine
-        public IEnumerator ConeShotCoroutine(BulletSettings bulletSettings, float startDelay, float loopDelay,
-            float bulletCount)
-        {
-            yield return new WaitForSeconds(startDelay);
-
-            if (bulletCount <= 0)
-            {
-                while (true)
-                {
-                    Bullet bullet = _bulletManager.GetBulletFromPool(bulletSettings.bulletType);
-                    
-                    bullet.SetupBullet(bulletSettings.bulletSpawnPosition.GetPosition(),
-                                       bulletSettings.bulletVelocity.GetSpeed(),
-                                       bulletSettings.bulletTarget.GetAngle(),
-                                       StartCoroutine((LinearBulletCoroutine(bullet))));
-                }
+                targetPos = (Vector2)bullet.transform.position + direction;
+                angle = AzurShmupUtilities.GetAngleVector2(bullet.transform.position, targetPos) - 90;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
+                bullet.transform.Translate(direction * Time.deltaTime, Space.World);
+                yield return null;
             }
         }
-        */
     }
 }

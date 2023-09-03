@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup
 {
     [CreateAssetMenu(fileName = "New Music Clip", menuName = "Music/MusicClip")]
     public class MusicClip : ScriptableObject

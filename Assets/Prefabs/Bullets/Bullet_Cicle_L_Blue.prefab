@@ -84,7 +84,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f5b1ea45f739a43a683585cd23dc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 20
+  settings:
+    behaviour: 0
+    graphic: 0
+    delay: 0
+    position:
+      type: 0
+      specificPosition: {x: 0, y: 0}
+    angleA: 0
+    speedA: 0
+    speedB: {x: 0, y: 0}
+  graphic: 20
 --- !u!114 &851378147829174978
 MonoBehaviour:
   m_ObjectHideFlags: 0

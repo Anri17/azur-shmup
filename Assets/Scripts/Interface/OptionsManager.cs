@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using AzurShmup.Core;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class OptionsManager : MonoBehaviour
     {
@@ -13,13 +14,18 @@ namespace AzurProject
         public Slider musicVolumeSlider;
         public Slider effectsVolumeSlider;
 
-        void Start()
+
+        private void Awake()
         {
             audioPlayer = AudioPlayer.Instance;
+        }
+
+        private void Start()
+        {
             InitSliderValues();
         }
 
-        void InitSliderValues()
+        private void InitSliderValues()
         {
             masterVolumeSlider.value = audioPlayer.MasterVolumeLevel;
             musicVolumeSlider.value = audioPlayer.BgmVolumeLevel;

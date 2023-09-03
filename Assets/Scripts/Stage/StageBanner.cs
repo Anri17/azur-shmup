@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
-    [CreateAssetMenu(fileName = "New Stage Banner", menuName = "Stage/Stage Banner")]
+    [CreateAssetMenu(fileName = "New Stage Banner", menuName = "Stage/Banner")]
     public class StageBanner : ScriptableObject
     {
         public GameObject bannerObject;

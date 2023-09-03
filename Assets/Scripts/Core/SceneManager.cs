@@ -4,15 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace AzurProject.Core
+namespace AzurShmup.Core
 {
-    public class SceneManager : MonoBehaviour
+    public class SceneManager : SingletonPersistent<SceneManager>
     {
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private Slider loadingBarSlider;
         [SerializeField] private Text loadingPercentageText;
-        
-        public static SceneManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            MakeSingleton();
+        }
 
         public void LoadScene(int sceneIndex)
         {
@@ -22,24 +25,6 @@ namespace AzurProject.Core
         public void LoadScene(SceneIndex sceneIndex)
         {
             StartCoroutine(LoadSceneCoroutine((int)sceneIndex));
-        }
-
-        private void Awake()
-        {
-            MakeSingleton();
-        }
-
-        private void MakeSingleton()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
         }
 
         private IEnumerator LoadSceneCoroutine(int sceneIndex)

@@ -5,10 +5,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using AzurShmup.Stage;
+using TMPro;
 
-namespace AzurProject.Core
+namespace AzurShmup.Core
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : SingletonPersistent<GameManager>
     {
         public static readonly Vector2 GAME_FIELD_TOP_LEFT = new Vector2(0.0f, 21.0f);
         public static readonly Vector2 GAME_FIELD_TOP_RIGHT = new Vector2(18.0f, 21.0f);
@@ -17,38 +19,70 @@ namespace AzurProject.Core
         public static readonly Vector2 GAME_FIELD_CENTER = new Vector2(9.0f, 10.5f);
         public static readonly Vector2 DEFAULT_BOSS_POSITION = new Vector2(9.0f, 15.0f);
 
-        // fonts
+        public AudioPlayer AudioPlayer { get; private set; }
+        public SettingsManager SettingsManager { get; private set; }
+        public SceneManager SceneManager { get; private set; }
+
+
+        [Header("Game Assets")]
+        [Header("Fonts")]
         public Font diogenesFont;
-        
-        // difficulty packs
-        public DifficultyPack easyDifficultyPack;
-        public DifficultyPack normalDifficultyPack;
-        public DifficultyPack hardDifficultyPack;
-        public DifficultyPack insaneDifficultyPack;
 
-        // Game Assets
-        public GameObject ryuukoA;
-        public GameObject powerItem;
-        public GameObject bigPowerItem;
-        public GameObject scoreItem;
-        public GameObject lifeItem;
-        public GameObject bombItem;
-        public GameObject spawnedPlayer;
+        [Header("Stage Packs")]
+        public StagePack easyStagepack;
+        public StagePack normalStagepack;
+        public StagePack hardStagepack;
+        public StagePack insaneStagepack;
+        public StagePack extraStagePack;
+        public StagePack debugStagePack;
 
-        public GameObject deathAnimation;
+        [Header("Players")]
+        public GameObject playerAPrefab;
+        public GameObject playerBPrefab;
 
-        // replay
-        public static GameManager Instance { get; private set; }
+        [Header("Items")]
+        public GameObject powerItemPrefab;
+        public GameObject bigPowerItemPrefab;
+        public GameObject scoreItemPrefab;
+        public GameObject lifeItemPrefab;
+
+        // Current play session
+        public DifficultyType DifficultyType { get; set; }
+        public PlayerShotType PlayerShotType { get; set; }
         public PlaySession CurrentPlaySession { get; set; }
-        public DifficultyPack CurrentDifficultyPack { get; private set; }
+        public StagePack CurrentStagePack { get; set; }
         public bool GamePaused { get; set; }
+
+        public Player Player { get; set; }
 
         private void Awake()
         {
             MakeSingleton();
+            
+            AudioPlayer = AudioPlayer.Instance;
+            SettingsManager = SettingsManager.Instance;
+            SceneManager = SceneManager.Instance;
         }
 
-        public void ResetReplay()
+        // Game Start
+        public void Start()
+        {
+            SettingsManager.LoadSettings();
+            AudioPlayer.SetVolumeLevels(
+                SettingsManager.Data.masterVolumeLevel,
+                SettingsManager.Data.musicVolumeLevel,
+                SettingsManager.Data.effectsVolumeLevel);
+        }
+
+        // Game End
+        public void CloseGame()
+        {
+            // Save Settings
+            SettingsManager.SaveSettings();
+            Application.Quit();
+        }
+
+        public void ResetPlaySession()
         {
             CurrentPlaySession.Score = 0;
         }
@@ -65,53 +99,100 @@ namespace AzurProject.Core
             Cursor.visible = true;
         }
 
-        public void SetDifficultyPack(DifficultyPack difficultyPack)
+        public void SetStagePack()
         {
-            CurrentDifficultyPack = difficultyPack;
+            switch (DifficultyType)
+            {
+                case DifficultyType.EASY:
+                    CurrentStagePack = easyStagepack;
+                    break;
+                case DifficultyType.NORMAL:
+                    CurrentStagePack = normalStagepack;
+                    break;
+                case DifficultyType.HARD:
+                    CurrentStagePack = hardStagepack;
+                    break;
+                case DifficultyType.INSANE:
+                    CurrentStagePack = insaneStagepack;
+                    break;
+                case DifficultyType.EXTRA:
+                    CurrentStagePack = extraStagePack;
+                    break;
+                case DifficultyType.DEBUG:
+                    CurrentStagePack = debugStagePack;
+                    break;
+                default:
+                    break;
+            }
         }
 
-        public void CreateNewReplay()
+        public void SetStagePack(DifficultyType difficultyType)
         {
+            DifficultyType = difficultyType;
+
+            switch (difficultyType)
+            {
+                case DifficultyType.EASY:
+                    CurrentStagePack = easyStagepack;
+                    break;
+                case DifficultyType.NORMAL:
+                    CurrentStagePack = normalStagepack;
+                    break;
+                case DifficultyType.HARD:
+                    CurrentStagePack = hardStagepack;
+                    break;
+                case DifficultyType.INSANE:
+                    CurrentStagePack = insaneStagepack;
+                    break;
+                case DifficultyType.EXTRA:
+                    CurrentStagePack = extraStagePack;
+                    break;
+                case DifficultyType.DEBUG:
+                    CurrentStagePack = debugStagePack;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void SetStagePack(StagePack stagePack)
+        {
+            DifficultyType = stagePack.DifficultyType;
+            CurrentStagePack = stagePack;
+        }
+
+        public void CreatePlaySession()
+        {
+            // This is placeholder
+            // TODO: Aks the player for input about the given data
             CurrentPlaySession = new PlaySession()
             {
                 PlayerName = "Guest",
                 Score = 0,
-                DifficultyType = CurrentDifficultyPack.DifficultyType
+                DifficultyType = DifficultyType,
+                PlayerType = PlayerShotType
             };
         }
         
-        public void CreateNewReplay(DifficultyTypes difficultyTypes)
+        public void CreatePlaySession(DifficultyType difficultyType)
         {
             CurrentPlaySession = new PlaySession()
             {
                 PlayerName = "Guest",
                 Score = 0,
-                DifficultyType = difficultyTypes
+                DifficultyType = difficultyType,
             };
         }
 
-        public void SaveReplay(PlaySession playSession)
+        public void SavePlaySession(PlaySession playSession)
         {
-            // TO DO: Save replay. Set Current Replay to null for now.
+            // TODO: Save replay. Set Current Replay to null for now.
             throw new NotImplementedException();
         }
 
-        public void DeleteReplay()
+        public void EndPlaySession()
         {
             CurrentPlaySession = null;
-        }
-
-        private void MakeSingleton()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
         }
     }
 }

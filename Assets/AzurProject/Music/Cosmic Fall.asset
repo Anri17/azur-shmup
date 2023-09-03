@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicTitle: Cosmic Fall
   musicClip: {fileID: 8300000, guid: 9490f44bf1f7ba045af0915669090d49, type: 3}
-  loopStart: 45180
+  loopStart: 42670
   composerComment: 'The Stage 6 Boss Theme.
 
 

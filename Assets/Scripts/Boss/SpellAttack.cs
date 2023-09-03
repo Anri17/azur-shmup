@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup
 {
     [CreateAssetMenu(fileName = "New Spell Attack", menuName = "Boss/Spell Attack")]
     public class SpellAttack : ScriptableObject
@@ -20,6 +20,5 @@ namespace AzurProject
         public int bigPowerItems = 1;
         public int scoreItems = 8;
         public int lifeItems = 0;
-        public int bombItems = 0;
     }
 }

@@ -2,16 +2,15 @@
 using System.Runtime;
 using System.Collections;
 using System.Collections.Generic;
-using AzurProject.Core;
+using AzurShmup.Core;
+using AzurShmup.Stage.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
-    public class DialogueManager : MonoBehaviour
+    public class DialogueManager : Singleton<DialogueManager>
     {
-        public static DialogueManager Instance { get; private set; }
-
         public GameObject dialogueScreen;
         public Text nameText;
         public Text dialogueText;
@@ -26,8 +25,8 @@ namespace AzurProject
 
         private void Awake()
         {
-            Instance = this;
-            
+            MakeSingleton();
+
             dialogueScreen.SetActive(false);
             _dialogueMessages = new Queue<DialogueMessage>();
         }
@@ -87,14 +86,22 @@ namespace AzurProject
             if (_dialogueMessages.Count != 0)
             {
                 DialogueMessage currentMessage = _dialogueMessages.Dequeue();
-                string name = currentMessage.personSpeaking;
-                string message = currentMessage.sentence;
+                string name = currentMessage.speakerName;
+                string message = currentMessage.message;
                 TypeMessage(name, message);
+
+                // TODO: Chain events with dialogue
                 if (currentMessage.changeMusic)
                 {
-                    GameObject.Find("WaveManager").GetComponent<WaveManager>().PlayBossMusic(1);
+                    AudioPlayer.Instance.StopMusic();
+                    StartCoroutine(WaitSeconds(() =>
+                    {
+                        AudioPlayer.Instance.PlayMusic(currentMessage.musicClip);
+                        UIManager.Instance.DisplayCurrentBMGText(currentMessage.musicClip.musicTitle);
+                    }, currentMessage.changeMusicDelay));
                 }
 
+                // TODO: Chain event with dialogue
                 if (currentMessage.presentBoss)
                 {
                     bossManager.spawnedBoss.GetComponent<Boss>().MoveToPosition(GameManager.DEFAULT_BOSS_POSITION);

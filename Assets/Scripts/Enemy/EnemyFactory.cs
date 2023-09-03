@@ -1,7 +1,7 @@
-﻿using AzurProject.Data;
+﻿using AzurShmup.Data;
 using UnityEngine;
 
-namespace AzurProject.Enemy
+namespace AzurShmup.Enemy
 {
     public static class EnemyFactory
     {
@@ -17,7 +17,7 @@ namespace AzurProject.Enemy
 
             // sprite
             SpriteRenderer spriteRenderer = enemyGameObject.AddComponent<SpriteRenderer>();
-            Sprite sprite = AzurProjectBase.LoadSprite(normalEnemyData.Sprite, 21.333333f);
+            Sprite sprite = AzurShmupUtilities.LoadSprite(normalEnemyData.Sprite, 21.333333f);
             spriteRenderer.sprite = sprite;
             spriteRenderer.sortingLayerName = "Enemy";
             
@@ -31,7 +31,7 @@ namespace AzurProject.Enemy
             boxCollider2D.size = spriteRenderer.bounds.size;
             
             // enemy script
-            NormalEnemy normalEnemyScript = enemyGameObject.AddComponent<NormalEnemy>();
+            EnemyBasic normalEnemyScript = enemyGameObject.AddComponent<EnemyBasic>();
             normalEnemyScript.health = normalEnemyData.Health;
             normalEnemyScript.lifeItems = normalEnemyData.LifeItemDrop;
             normalEnemyScript.powerItems = normalEnemyData.PowerItemDrop;

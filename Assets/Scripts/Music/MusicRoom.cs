@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using AzurShmup.Core;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class MusicRoom : MonoBehaviour
     {
@@ -17,7 +18,7 @@ namespace AzurProject
 
         public Slider musicProgressBar;
 
-        AudioPlayer audioPlayer;
+        AudioPlayer _audioPlayer;
 
         private List<GameObject> _buttonClips;
 
@@ -25,18 +26,18 @@ namespace AzurProject
 
         private void Start()
         {
-            audioPlayer = AudioPlayer.Instance;
+            _audioPlayer = AudioPlayer.Instance;
             _buttonClips = CreateMusicList(musicClips);
 
             SetActiveMusicButton();
 
             // Initialize MusicProgressBar
-            musicProgressBar.maxValue = audioPlayer.bgmAudioSource.clip.length;
+            musicProgressBar.maxValue = _audioPlayer.MusicPlayer.clip.length;
         }
 
         private void Update()
         {
-            musicProgressBar.value = audioPlayer.bgmAudioSource.time;
+            musicProgressBar.value = _audioPlayer.MusicPlayer.time;
         }
 
         private List<GameObject> CreateMusicList(MusicClip[] clips)
@@ -76,10 +77,10 @@ namespace AzurProject
 
         private void PlayMusic(AudioClip clip, int loopStart)
         {
-            if (audioPlayer.bgmAudioSource.clip != clip)
+            if (_audioPlayer.MusicPlayer.clip != clip)
             {
-                audioPlayer.PlayMusic(clip, loopStart);
-                musicProgressBar.maxValue = audioPlayer.bgmAudioSource.clip.length;
+                _audioPlayer.PlayMusic(clip, loopStart);
+                musicProgressBar.maxValue = _audioPlayer.MusicPlayer.clip.length;
                 StopMusic();
                 PlayTrack();
             }
@@ -87,28 +88,28 @@ namespace AzurProject
 
         private void StopMusic()
         {
-            if (audioPlayer.bgmAudioSource.clip != null)
+            if (_audioPlayer.MusicPlayer.clip != null)
             {
-                audioPlayer.bgmAudioSource.Stop();
+                _audioPlayer.StopMusic();
                 SetTrackTime(0);
-                audioPlayer.bgmAudioSource.time = 0;
+                _audioPlayer.MusicPlayer.time = 0;
             }
         }
 
         private void PlayTrack()
         {
-            if (audioPlayer.bgmAudioSource.clip != null)
+            if (_audioPlayer.MusicPlayer.clip != null)
             {
-                if (!audioPlayer.bgmAudioSource.isPlaying)
-                    audioPlayer.bgmAudioSource.Play();
+                if (!_audioPlayer.MusicPlayer.isPlaying)
+                    _audioPlayer.MusicPlayer.Play();
             }
         }
 
         private void PauseMusic()
         {
-            if (audioPlayer.bgmAudioSource.clip != null)
+            if (_audioPlayer.MusicPlayer.clip != null)
             {
-                audioPlayer.PauseMusic();
+                _audioPlayer.PauseMusic();
             }
         }
 
@@ -116,7 +117,7 @@ namespace AzurProject
         {
             if (sliderValue < musicProgressBar.maxValue && sliderValue > musicProgressBar.minValue)
             {
-                audioPlayer.bgmAudioSource.time = sliderValue;
+                _audioPlayer.MusicPlayer.time = sliderValue;
             }
         }
 
@@ -126,7 +127,7 @@ namespace AzurProject
 
             for (int i = 0; i < musicClips.Length; i++)
             {
-                if (musicClips[i].musicClip == audioPlayer.bgmAudioSource.clip)
+                if (musicClips[i].musicClip == _audioPlayer.MusicPlayer.clip)
                 {
                     var thisColors = buttons[i].colors;
                     thisColors.normalColor = new Color(0.5f, 0.5f, 0.2f, 0.5f);

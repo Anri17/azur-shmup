@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup
 {
-    [CreateAssetMenu(fileName = "New Boss Stage", menuName = "Boss/Stage")]
-    public class BossStage : ScriptableObject
+    [CreateAssetMenu(fileName = "New Boss Spell", menuName = "Boss/Spell")]
+    public class BossSpell: ScriptableObject
     {
         public int scoreWorth = 100000;
         public float health;

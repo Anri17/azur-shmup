@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace AzurProject.Movement
+namespace AzurShmup.Movement
 {
     public interface IMovement
     {

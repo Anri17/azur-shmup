@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf1e8d1560349e418db6a5f723dc07d, type: 3}
+  m_Name: Debug_Stage01
+  m_EditorClassIdentifier: 
+  Name: Stage 1
+  Description: A Bunch of Fairies and What Not...
+  Events:
+  - {fileID: 11400000, guid: bf8a63d31e9735649b0592fe585fbb18, type: 2}
+  - {fileID: 11400000, guid: 69d131bc7c4c6b042b8105f95f252ed9, type: 2}
+  - {fileID: 11400000, guid: 3ac659e24519c13499040c8840a17fff, type: 2}
+  - {fileID: 11400000, guid: e47bca102a00e9a4d977e209565250b2, type: 2}
+  - {fileID: 11400000, guid: c79a1e4b6cfd158489f3b577814ec90a, type: 2}
+  Background: {fileID: 0}

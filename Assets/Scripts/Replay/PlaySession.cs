@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class PlaySession
     {
         public string PlayerName { get; set; }
         public ulong Score { get; set; }
-        public DifficultyTypes DifficultyType { get; set; }
+        public DifficultyType DifficultyType { get; set; }
+        public PlayerShotType PlayerType { get; set; }
     }
 }

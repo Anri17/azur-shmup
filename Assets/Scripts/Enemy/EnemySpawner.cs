@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace AzurProject.Enemy
+namespace AzurShmup.Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
         [Header("Spawn Settings")]
         [Tooltip("The game object prefab which will be instantiated by this spawner")]
-        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private GameObject prefab;
         
         [Tooltip("How many enemies this spawn will instantiate")]
         [SerializeField] private int spawnCount = 1;
@@ -27,11 +27,11 @@ namespace AzurProject.Enemy
         {
             yield return new WaitForSeconds(startDelay);
             
-            // Spawn <spawnCount> amount of enemies
+            // Instantiate the enemy a number of times defined by spawnCount
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
-                Vector3 spawnPoint = gameObject.transform.position;
-                Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);  // Spawn the enemy
+                Vector3 spawnPoint = gameObject.transform.position;     // The poisition of this object
+                Instantiate(prefab, spawnPoint, Quaternion.identity);   // Spawn the enemy
                 yield return new WaitForSeconds(1 / spawnRate);
             }
             

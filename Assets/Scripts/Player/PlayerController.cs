@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AzurProject.Core;
+using AzurShmup.Core;
 
-namespace AzurProject
+namespace AzurShmup
 {
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : MonoBehaviour

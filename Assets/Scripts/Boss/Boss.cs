@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AzurProject.Bullet;
+using AzurShmup.Bullet;
 using UnityEngine;
-using AzurProject.Core;
+using AzurShmup.Core;
+using AzurShmup.Stage.Events;
+using AzurShmup.Stage;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class Boss : MonoBehaviour
     {
-        public int StageCount { get; set; }
+        public int SpellCount { get; set; }
         public float CurrentMaxHealth { get; set; }
         public float CurrentHealth { get; set; }
         public float CurrentDeathTimer { get; set; }
@@ -23,7 +25,7 @@ namespace AzurProject
         private GameObject _currentStageSpellGameObject;  // the part of the spell that does not move and is parented to the scene
         private bool _hittable = false;
         
-        private WaveManager _waveManager;
+        private StageManager _stageManager;
         private AudioPlayer _audioPlayer;
 
         private bool _isDead = false;
@@ -47,13 +49,13 @@ namespace AzurProject
 
         private void Awake()
         {
-            _waveManager = GameObject.Find("WaveManager").GetComponent<WaveManager>();
             _audioPlayer = AudioPlayer.Instance;
+            _stageManager = StageManager.Instance;
         }
 
         private void Start()
         {
-            StageCount = spellAttacks.Length - 1;
+            SpellCount = spellAttacks.Length - 1;
         }
 
         private bool _beingHit = false;
@@ -91,11 +93,11 @@ namespace AzurProject
         private void KillBoss()
         {
             _audioPlayer.PlaySfx(_audioPlayer.enemyDeathSfx);
-            WaveManager.RemoveBulletsFromPlayField();
+            _stageManager.ClearBullets();
             StopAllCoroutines();
-            DropItems(_currentSpellAttack.powerItems, _currentSpellAttack.bigPowerItems, _currentSpellAttack.scoreItems, _currentSpellAttack.lifeItems, _currentSpellAttack.bombItems);
+            DropItems(_currentSpellAttack.powerItems, _currentSpellAttack.bigPowerItems, _currentSpellAttack.scoreItems, _currentSpellAttack.lifeItems);
             _hittable = false;
-            StageCount--;
+            SpellCount--;
             _spellAttackIndex++;
             if (_spellAttackIndex < spellAttacks.Length)
             {
@@ -109,9 +111,9 @@ namespace AzurProject
             }
         }
 
-        private void DropItems(int powerItemQuantity, int bigPowerItemQuantity, int scoreItemQuantity, int lifeItemQuantity, int bombItemQuantity)
+        private void DropItems(int powerItemQuantity, int bigPowerItemQuantity, int scoreItemQuantity, int lifeItemQuantity)
         {
-            _waveManager.SpawnItems(transform.position, powerItemQuantity, bigPowerItemQuantity, scoreItemQuantity, lifeItemQuantity, bombItemQuantity);
+            _stageManager.SpawnItems(transform.position, powerItemQuantity, bigPowerItemQuantity, scoreItemQuantity, lifeItemQuantity);
         }
 
         private IEnumerator MoveToPositionCoroutine(Vector3 destination, float timeToMove)

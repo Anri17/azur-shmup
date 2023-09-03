@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
-    public class BossManager : MonoBehaviour
+    public class BossManager : Singleton<BossManager>
     {
 
         [SerializeField] private GameObject bossInterface;
@@ -14,6 +14,11 @@ namespace AzurProject
         [SerializeField] private GameObject bossDeathTimer;
 
         [HideInInspector] public GameObject spawnedBoss;
+
+        private void Awake()
+        {
+            MakeSingleton();
+        }
 
         private void Update()
         {
@@ -31,7 +36,7 @@ namespace AzurProject
                 bossHealthBar.GetComponent<Slider>().value = spawnedBoss.GetComponent<Boss>().CurrentHealth / spawnedBoss.GetComponent<Boss>().CurrentMaxHealth;
 
                 // Update Current Stage Number
-                bossStageCount.GetComponent<Text>().text = spawnedBoss.GetComponent<Boss>().StageCount.ToString();
+                bossStageCount.GetComponent<Text>().text = spawnedBoss.GetComponent<Boss>().SpellCount.ToString();
 
                 // Update Death Timer
                 bossDeathTimer.GetComponent<Text>().text = spawnedBoss.GetComponent<Boss>().CurrentDeathTimer.ToString();

@@ -1,25 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AzurShmup.Stage.Events;
+using AzurShmup.Stage;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class PlayerHitbox : MonoBehaviour
     {
-        [SerializeField] float playerRespawnDelay = 1f;
+        [SerializeField] private float playerRespawnDelay = 1f;
+        // Managers
+        private StageManager _stageManager;
+        
+        private Player spawnedPlayerReference;
 
-        WaveManager waveManager;
-        Player player;
 
         private void Awake()
         {
-            waveManager = GameObject.Find("WaveManager").GetComponent<WaveManager>();
-            player = GetComponentInParent<Player>();
+            _stageManager = StageManager.Instance;
+            spawnedPlayerReference = GetComponentInParent<Player>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (player.hittable)
+            if (spawnedPlayerReference.hittable)
             {
                 if (collision.gameObject.tag.Equals("EnemyBullet"))
                 {
@@ -39,8 +43,8 @@ namespace AzurProject
 
         private void Respawn()
         {
-            waveManager.SpawnItems(transform.position, 5, 1, 0, 0, 0);
-            player.RespawnPlayer(waveManager.playerSpawnPoint, playerRespawnDelay);
+            _stageManager.SpawnItems(transform.position, 5, 1, 0, 0);
+            spawnedPlayerReference.RespawnPlayer(_stageManager.playerSpawnPoint, playerRespawnDelay);
         }
     }
 }

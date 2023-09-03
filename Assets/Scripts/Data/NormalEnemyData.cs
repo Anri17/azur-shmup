@@ -1,4 +1,4 @@
-﻿namespace AzurProject.Data
+﻿namespace AzurShmup.Data
 {
     public class NormalEnemyData : BaseData
     {

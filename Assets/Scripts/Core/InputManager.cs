@@ -1,24 +1,23 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AzurProject.Core
+namespace AzurShmup.Core
 {
-    public class InputManager : MonoBehaviour
+    public static class InputManager
     {
-        public static InputManager Instance { get; private set; }
-        
-        public KeyCode Up { get; set; }
-        public KeyCode Down { get; set; }
-        public KeyCode Left { get; set; }
-        public KeyCode Right { get; set; }
-        public KeyCode Shoot { get; set; }
-        public KeyCode Focus { get; set; }
-        public KeyCode Special { get; set; }
+        public static KeyCode Up { get; set; }
+        public static KeyCode Down { get; set; }
+        public static KeyCode Left { get; set; }
+        public static KeyCode Right { get; set; }
+        public static KeyCode Shoot { get; set; }
+        public static KeyCode Focus { get; set; }
+        public static KeyCode Special { get; set; }
+        public static KeyCode Return { get; set; }
+        public static KeyCode Pause { get; set; }
+        public static KeyCode DebugMode { get; set; }
 
-        private void Awake()
+        static InputManager()
         {
-            MakeSingleton();
-            
             Up = KeyCode.UpArrow;
             Down = KeyCode.DownArrow;
             Left = KeyCode.LeftArrow;
@@ -26,19 +25,13 @@ namespace AzurProject.Core
             Shoot = KeyCode.Z;
             Focus = KeyCode.LeftShift;
             Special = KeyCode.X;
+            Return = KeyCode.Return;
+            Pause = KeyCode.Escape;
+            DebugMode = KeyCode.Backslash;
         }
-        
-        private void MakeSingleton()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+
+        public static bool GetKey(KeyCode key) => Input.GetKey(key);
+        public static bool GetKeyDown(KeyCode key) => Input.GetKeyDown(key);
+        public static bool GetKeyUp(KeyCode key) => Input.GetKeyUp(key);
     }
 }

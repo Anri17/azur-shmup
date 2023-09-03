@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace AzurProject.Movement
+namespace AzurShmup.Movement
 {
     [Serializable]
     public class BezierRoute

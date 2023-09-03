@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AzurProject.Core;
+using AzurShmup.Core;
+using AzurShmup.Stage;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class Collectable : MonoBehaviour
     {
@@ -19,11 +20,13 @@ namespace AzurProject
         private Vector3 target;
         private bool moveToPlayer = false;
 
-        private GameManager gameManager;
+        private GameManager _gameManager;
+        private StageManager _stageManager;
 
         private void Awake()
         {
-            gameManager = GameManager.Instance;
+            _gameManager = GameManager.Instance;
+            _stageManager = StageManager.Instance;
         }
 
         private void Update()
@@ -33,7 +36,7 @@ namespace AzurProject
                 if (moveToPlayer && GameObject.Find("ItemCollectionArea").GetComponent<ItemCollectionArea>().canSucc)
                 {
                     scoreWorth = 10000;
-                    Succ(gameManager.spawnedPlayer.transform.position, moveSpeed);
+                    Succ(_gameManager.Player.transform.position, moveSpeed);
                 }
                 else
                 {
@@ -64,7 +67,7 @@ namespace AzurProject
 
         public void MoveToPlayer(float moveSpeed)
         {
-            target = gameManager.spawnedPlayer.transform.position;
+            target = _gameManager.Player.transform.position;
             moveToPlayer = true;
             this.moveSpeed = moveSpeed;
             moveTowardsTarget = true;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using AzurProject.Bullet;
+﻿using System.Collections;
 using UnityEngine;
-using AzurProject.Core;
-using UnityEngine.Serialization;
+using AzurShmup.Core;
+using AzurShmup.Stage;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class Player : MonoBehaviour
     {
@@ -13,6 +11,7 @@ namespace AzurProject
         public GameObject[] barrages;
         public GameObject bombBarrage;
         public GameObject sprites;
+        public GameObject deathAnimation;
 
         [SerializeField] private GameObject[] powerOrbsLevels;
 
@@ -188,7 +187,7 @@ namespace AzurProject
 
         private void KillPlayer()
         {
-            Instantiate(GameManager.Instance.deathAnimation, transform.position, Quaternion.identity);
+            Instantiate(deathAnimation, transform.position, Quaternion.identity);
             Lives--;
             PowerLevel = 0;
             Destroy(current_shot);

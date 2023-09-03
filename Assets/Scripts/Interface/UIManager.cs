@@ -1,24 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using AzurProject.Core;
+using AzurShmup.Core;
 using TMPro;
-using UnityEngine.Serialization;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : Singleton<UIManager>
     {
-        public static UIManager Instance { get; private set; }
-        private AudioPlayer _audioPlayer;
-
         [Header("Main Menu")]
-        public GameObject pauseMenu;
+        [SerializeField] private GameObject pauseMenu;
+        [SerializeField] public bool CanOpenMenu = true;
 
-        public bool canOpenMenu;
+        [Header("UI Display")]
+        [SerializeField] private Text powerLevelNumber;
+        [SerializeField] private Text scoreNumber;
+        [SerializeField] private Text livesNumber;
+        
         [Header("Game Over")]
         [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private GameObject finalScoreBoard;
@@ -27,15 +26,23 @@ namespace AzurProject
         [SerializeField] private Text endScreenLives;
         [SerializeField] private Text endScreenBonus;
         [SerializeField] private Text endScreenFinalScore;
-        [FormerlySerializedAs("_nowPlayingBMGText")] [SerializeField] private TMP_Text nowPlayingBMGText;
+
+        [Header("Miscellaneous")]
+        [SerializeField] private TMP_Text nowPlayingBMGText;
+
+        private GameManager _gameManager;
+        private AudioPlayer _audioPlayer;
 
         private void Awake()
         {
-            Instance = this;
-            canOpenMenu = true;
-            pauseMenu.SetActive(false);
-            GameManager.Instance.GamePaused = false;
+            MakeSingleton();
+
+            _gameManager = GameManager.Instance;
             _audioPlayer = AudioPlayer.Instance;
+
+            CanOpenMenu = true;
+            pauseMenu.SetActive(false);
+            _gameManager.GamePaused = false;
         }
 
         private void Start()
@@ -46,91 +53,76 @@ namespace AzurProject
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && canOpenMenu)
+
+            if (_gameManager.CurrentPlaySession != null)
             {
-                TogglePauseGame();
+                scoreNumber.text = _gameManager.CurrentPlaySession.Score.ToString("000,000,000,000");
+            }
+
+            if (_gameManager.Player != null)
+            {
+                powerLevelNumber.text = _gameManager.Player.PowerLevel.ToString("0.##");
+                livesNumber.text = _gameManager.Player.Lives.ToString();
             }
         }
 
-        public void TogglePauseGame()
+
+        // TODO: Get the pause functionality the fuck out of this god forsaking class!
+        // Leave only the fucking UI elements for fuck sake!
+        public void TogglePauseMenu()
         {
             if (pauseMenu.activeSelf)
             {
+                // Audio
                 _audioPlayer.ResumeMusic();
                 _audioPlayer.PlaySfx(_audioPlayer.resumeSfx);
                 Time.timeScale = 1;
+                // Hide Pause Menu
                 pauseMenu.SetActive(false);
+                // Unpause Game
                 GameManager.LockCursor();
                 GameManager.Instance.GamePaused = false;
             }
             else
             {
+                // Audio
                 _audioPlayer.PauseMusic();
                 _audioPlayer.PlaySfx(_audioPlayer.pauseSfx);
                 Time.timeScale = 0;
+                // Display Pause Menu
                 pauseMenu.SetActive(true);
+                // Pause Game
                 GameManager.UnlockCursor();
                 GameManager.Instance.GamePaused = true;
             }
         }
 
-        public void DisplayFinalInfo()
+        public void DisplayFinalScoreInformation(ulong score, ulong clearBonus, int lives, ulong lifeBonus, ulong finalScore)
         {
-            ulong score = GameManager.Instance.CurrentPlaySession.Score;
-            ulong clearBonus = 1000000;
-            int lives = GameManager.Instance.spawnedPlayer.GetComponent<Player>().Lives;
-            ulong lifeBonus = (ulong)lives * 10000;
-            ulong finalScore = lifeBonus + score + clearBonus;
-
             finalScoreBoard.SetActive(true);
+
             endScreenScore.text = score.ToString("000,000,000,000");
             endScreenLivesCalculation.text = $"{lives.ToString()} * 10000";
             endScreenLives.text = (lives * 10000).ToString("000,000,000,000");
             endScreenBonus.text = clearBonus.ToString("000,000,000,000");
             endScreenFinalScore.text = finalScore.ToString("000,000,000,000");
-
-            GameManager.Instance.CurrentPlaySession.Score = finalScore;
         }
 
-        public void ResetStage()
+        public void HideFinalInfo()
         {
-            finalScoreBoard.SetActive(false);       // Hide Final Information
-            WaveManager.Instance.ReachedEnd = false;
-            Time.timeScale = 1;
-            GameManager.LockCursor();
+            finalScoreBoard.SetActive(false); // Hide Final Information
         }
 
-        public void EndStage()
-        {
-            DisplayFinalInfo();
-            GameManager.UnlockCursor();
-            Time.timeScale = 1;
-        }
-
-        public void GameOver()
-        {
-            DisplayGameOverScreen();
-            StartCoroutine(GameOverCoroutine());
-        }
-
-        private void DisplayGameOverScreen()
+        public void DisplayGameOverScreen()
         {
             gameOverScreen.SetActive(true);
         }
 
         public void DisplayCurrentBMGText(string bgmName)
         {
+            nowPlayingBMGText.GetComponent<Animator>().SetBool("Display", false);
             nowPlayingBMGText.text = "♪ Now Playing: " + bgmName;
             nowPlayingBMGText.GetComponent<Animator>().SetBool("Display", true);
-        }
-
-        private IEnumerator GameOverCoroutine()
-        {
-            GameManager.UnlockCursor();
-            Time.timeScale = 1;
-            GameObject.Find("UIManager").GetComponent<UIManager>().canOpenMenu = false;
-            yield return new WaitForSeconds(5f);
-            SceneManager.LoadScene((int)SceneIndex.MENU_SCENE);
         }
     }
 }

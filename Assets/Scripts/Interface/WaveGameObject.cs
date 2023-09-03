@@ -1,7 +1,7 @@
-﻿using AzurProject.Core;
+﻿using AzurShmup.Core;
 using UnityEngine;
 
-namespace AzurProject.Interface
+namespace AzurShmup.Interface
 {
     public class WaveGameObject : MonoBehaviour
     {

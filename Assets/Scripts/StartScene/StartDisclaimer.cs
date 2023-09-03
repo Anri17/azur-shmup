@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AzurProject.Core;
+using AzurShmup.Core;
 
-namespace AzurProject.StartScene
+namespace AzurShmup.StartScene
 {
     public class StartDisclaimer : MonoBehaviour
     {
@@ -14,12 +14,10 @@ namespace AzurProject.StartScene
 
         private IEnumerator LoadMainGame(float spashScreenDuration)
         {
-            // if (gameObject != null)
-            {
-                yield return new WaitForSeconds(spashScreenDuration);
-                SceneManager.Instance.LoadScene((int)SceneIndex.MENU_SCENE);
-                gameObject.SetActive(false);
-            }
+            yield return new WaitForSeconds(spashScreenDuration);
+            SceneManager.Instance.LoadScene((int)SceneIndex.MENU_SCENE);
+            gameObject.SetActive(false);
+
             yield return null;
         }
     }

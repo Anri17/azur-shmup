@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using AzurProject.Core;
+using AzurShmup.Core;
+using AzurShmup.Stage.Events;
+using AzurShmup.Stage;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AzurProject
+namespace AzurShmup
 {
     public class PractiseSelector : MonoBehaviour
     {
@@ -26,30 +28,12 @@ namespace AzurProject
             selectedDifficultyText.text = "";
         }
 
-        public void SelectDifficulty(DifficultyTypeComponent difficulty)
-        {
-            switch (difficulty.difficulty)
-            {
-                case DifficultyTypes.EASY:
-                    DisplayStages(_gameManager.easyDifficultyPack);
-                    // list out EASY difficulty stages on the panel
-                    break;
-                case DifficultyTypes.NORMAL:
-                    DisplayStages(_gameManager.normalDifficultyPack);
-                    // list out NORMAL difficulty stages on the panel
-                    break;
-                case DifficultyTypes.HARD:
-                    DisplayStages(_gameManager.hardDifficultyPack);
-                    // list out HARD difficulty stages on the panel
-                    break;
-                case DifficultyTypes.INSANE:
-                    DisplayStages(_gameManager.insaneDifficultyPack);
-                    // list out INSANE difficulty stages on the panel
-                    break;
-            }
-        }
+        public void SelectDifficultyEasy() => DisplayStages(_gameManager.easyStagepack);
+        public void SelectDifficultyNormal() => DisplayStages(_gameManager.normalStagepack);
+        public void SelectDifficultyHard() => DisplayStages(_gameManager.hardStagepack);
+        public void SelectDifficultyInsane() => DisplayStages(_gameManager.insaneStagepack);
 
-        private void DisplayStages(DifficultyPack difficultyPack)
+        private void DisplayStages(StagePack difficultyPack)
         {
             // write text for displaying the difficulty name
             selectedDifficultyText.text = difficultyPack.DifficultyType.ToString();
@@ -125,21 +109,20 @@ namespace AzurProject
             // make a custom difficulty pack with only that stage
         }
 
-        private void PlayStage(DifficultyPack difficultyPack, int stageNumber)
+        private void PlayStage(StagePack difficultyPack, int stageNumber)
         {
             // create difficulty pack
             // load new difficulty pack
             
-            DifficultyPack customDifficultyPack = ScriptableObject.CreateInstance<DifficultyPack>();
+            StagePack customDifficultyPack = ScriptableObject.CreateInstance<StagePack>();
 
             customDifficultyPack.DifficultyType = difficultyPack.DifficultyType;
-            customDifficultyPack.stages = new Stage[1];
+            customDifficultyPack.stages = new Stage.Stage[1];
             customDifficultyPack.stages[0] = difficultyPack.stages[stageNumber-1];
-            _gameManager.SetDifficultyPack(customDifficultyPack);
-            
-            _sceneManager.LoadScene((int)SceneIndex.STAGE_SCENE);
-            
-            _gameManager.CreateNewReplay();
+
+            _gameManager.SetStagePack(customDifficultyPack);
+            _sceneManager.LoadScene(SceneIndex.STAGE_SCENE);
+            _gameManager.CreatePlaySession();
         }
     }
 }

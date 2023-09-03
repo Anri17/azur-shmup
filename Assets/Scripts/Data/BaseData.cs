@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AzurProject.Data
+namespace AzurShmup.Data
 {
     public class BaseData
     {

@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AzurShmup.Stage.Events;
 
-namespace AzurProject
+namespace AzurShmup.Stage
 {
     [CreateAssetMenu(fileName = "New Stage", menuName = "Stage/Stage")]
     public class Stage : ScriptableObject
     {
-        public string stageName;
-        public string stageDescription;
-        public StageBanner banner;
-        public Wave[] waves;
-        public MusicClip stageMusic;
-        public MusicClip bossMusic;
-        public StageBackground background;
+        public string Name;
+        public string Description;
+        public StageEvent[] Events;
+        public StageBackground Background;
     }
 }
