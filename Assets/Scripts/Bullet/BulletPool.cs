@@ -15,14 +15,14 @@ namespace AzurShmup.Bullet
         // All the bullets that need to be pooled.
         [SerializeField] private GameObject[] Bullet_Prefabs;
 
-        private Dictionary<BulletGraphicType, List<Bullet>> idle_pool;
-        private Dictionary<BulletGraphicType, List<Bullet>> active_pool;
+        private Dictionary<BulletGraphic, List<Bullet>> idle_pool;
+        private Dictionary<BulletGraphic, List<Bullet>> active_pool;
         private const int BULLETS_POOL_START_SIZE = 12; // this number will be tweaked multiple times through out development
 
         private void Start()
         {
-            idle_pool = new Dictionary<BulletGraphicType, List<Bullet>>();
-            active_pool = new Dictionary<BulletGraphicType, List<Bullet>>();
+            idle_pool = new Dictionary<BulletGraphic, List<Bullet>>();
+            active_pool = new Dictionary<BulletGraphic, List<Bullet>>();
             
             foreach (GameObject prefab in Bullet_Prefabs)
             {
@@ -44,7 +44,7 @@ namespace AzurShmup.Bullet
         /// <param name="type">The type of bullet to be picked from the pool and returned</param>
         /// <returns>Active bullet of the given type.</returns>
         /// <exception cref="Exception">Invalid bullet type</exception>
-        public Bullet Get_Bullet(BulletGraphicType type)
+        public Bullet Get_Bullet(BulletGraphic type)
         {
             // Find a bullet of the given type from the idle pool, set it to the active pool, and return it.
             foreach (Bullet bullet in idle_pool[type])

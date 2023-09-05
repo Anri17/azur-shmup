@@ -1,6 +1,6 @@
 namespace AzurShmup.Bullet
 {
-    public enum BulletGraphicType
+    public enum BulletGraphic
     {
         // PLAYER
         PLAYER_L = 0,

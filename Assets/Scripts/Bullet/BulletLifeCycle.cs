@@ -7,7 +7,7 @@ namespace AzurShmup.Bullet
     public class BulletLifeCycle : MonoBehaviour
     {
         private bool _isInsidePlayfield;
-        private float bulletLifeCycle = 4.0f;
+        private float bulletLifeCycle = 1.0f;
         private Bullet _parentBullet; 
         private Coroutine _lifeCycleCoroutine;
 

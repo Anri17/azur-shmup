@@ -18,15 +18,17 @@ namespace AzurShmup.Stage
             MakeSingleton();
         }
 
-        public Coroutine CreateShot(
+        public Coroutine StartShot(
             ShotData shotData)
         {
-            switch (shotData.shotPattern.type)
+            switch (shotData.shot.type)
             {
-                case ShotPatternType.LINEAR:
-                    {
-                        return StartCoroutine(ShotPatternLinearCoroutine(shotData));
-                    }
+                case ShotType.LINEAR_BASIC_A:
+                    return StartCoroutine(ShotCoroutine_LinearBasicA(shotData.shot.linearBasicA));
+                case ShotType.LINEAR_BASIC_B:
+                    return StartCoroutine(ShotCoroutine_LinearBasicB(shotData.shot.linearBasicB));
+                case ShotType.LINEAR_ACCELERATING_A:
+                    return StartCoroutine(ShotCoroutine_LinearAcceleratingA(shotData.shot.linearAcceleratingA));
             }
 
             throw new Exception("Shot pattern not defined.");
@@ -35,30 +37,96 @@ namespace AzurShmup.Stage
         // Remove bullet from Play
         public void Add_Bullet_To_Idle_Pool(Bullet.Bullet bullet) => _bulletPool.Add_Bullet_To_Idle_Pool(bullet);
 
-        private Bullet.Bullet InstantiateBullet(
-            BulletGraphicType bulletGraphicType,
-            BulletSpawnPosition bulletSpawnPosition,
-            BulletBehaviour bulletBehaviour,
-            float bulletSpawnDelay)
+        /* -------------------- SHOT COROUTINES -------------------- */
+        public IEnumerator ShotCoroutine_LinearBasicA(ShotLinearBasicA shot)
         {
-            Bullet.Bullet bullet = _bulletPool.Get_Bullet(bulletGraphicType);
+            yield return new WaitForSeconds(shot.start_delay);
+            do
+            {
+                int i = 0;
+                while (i < shot.shoot_count || shot.is_infinite_shots)
+                {
+                    Bullet.Bullet bullet = _bulletPool.Get_Bullet(shot.bulletGraphic);
+                    bullet.StartBullet(shot.bulletSpawnPosition, shot.bulletBehaviour, shot.bulletSpawnDelay);
 
-            bullet.StartBullet(bulletSpawnPosition, bulletBehaviour);
+                    if (!shot.is_infinite_shots) ++i;
+                    yield return new WaitForSeconds(shot.shoot_delay);
+                }
 
-            return bullet;
+                yield return new WaitForSeconds(shot.loop_delay);
+            } while (shot.loop_shot);
+            yield return null;
+        }
+        public IEnumerator ShotCoroutine_LinearBasicB(ShotLinearBasicB shot)
+        {
+            yield return new WaitForSeconds(shot.start_delay);
+            do
+            {
+                int i = 0;
+                while (i < shot.shoot_count || shot.is_infinite_shots)
+                {
+                    Bullet.Bullet bullet = _bulletPool.Get_Bullet(shot.bulletGraphic);
+                    bullet.StartBullet(shot.bulletSpawnPosition, shot.bulletBehaviour, shot.bulletSpawnDelay);
+
+                    if (!shot.is_infinite_shots) ++i;
+                    yield return new WaitForSeconds(shot.shoot_delay);
+                }
+
+                yield return new WaitForSeconds(shot.loop_delay);
+            } while (shot.loop_shot);
+            yield return null;
+        }
+        public IEnumerator ShotCoroutine_LinearAcceleratingA(ShotLinearAcceleratingA shot)
+        {
+            yield return new WaitForSeconds(shot.start_delay);
+            do
+            {
+                int i = 0;
+                while (i < shot.shoot_count || shot.is_infinite_shots)
+                {
+                    Bullet.Bullet bullet = _bulletPool.Get_Bullet(shot.bulletGraphic);
+                    bullet.StartBullet(shot.bulletSpawnPosition, shot.bulletBehaviour, shot.bulletSpawnDelay);
+
+                    if (!shot.is_infinite_shots) ++i;
+                    yield return new WaitForSeconds(shot.shoot_delay);
+                }
+
+                yield return new WaitForSeconds(shot.loop_delay);
+            } while (shot.loop_shot);
+            yield return null;
         }
 
-        /* -------------------- SHOT COROUTINES -------------------- */
-        public IEnumerator ShotPatternLinearCoroutine(
-            ShotData shotData)
+        /*
+        public IEnumerator ShotCoroutine_Rotating(ShotData shotData)
         {
             do
             {
-                yield return new WaitForSeconds(shotData.shotPattern.linear.startDelay);
+                yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
 
-                if (shotData.shotPattern.linear.bulletCount <= 0)
+                if (shotData.shot.rotating.cluster_count <= 0)
                 {
                     while (true)
+                    {
+                        // set bullet starting angles
+                        if (shotData.shot.rotating.isRandom)
+                        {
+
+                        }
+                        for (int i = 0; i < shotData.shot.rotating.cluster_size; ++i)
+                        {
+                            Bullet.Bullet bullet = InstantiateBullet(
+                                shotData.bulletGraphicType,
+                                shotData.bulletSpawnPosition,
+                                shotData.bulletBehaviour,
+                                shotData.bulletSpawnDelay);
+                        }
+
+                        yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
+                    }
+                }
+                for (int i = 0; i < shotData.shot.rotating.cluster_count; i++)
+                {
+                    for (int j = 0; j < shotData.shot.rotating.cluster_size; ++j)
                     {
                         Bullet.Bullet bullet = InstantiateBullet(
                             shotData.bulletGraphicType,
@@ -66,24 +134,17 @@ namespace AzurShmup.Stage
                             shotData.bulletBehaviour,
                             shotData.bulletSpawnDelay);
 
-                        yield return new WaitForSeconds(shotData.shotPattern.linear.loopDelay);
+                        float angle = 0;
                     }
-                }
-                for (int i = 0; i < shotData.shotPattern.linear.bulletCount; i++)
-                {
-                    Bullet.Bullet bullet = InstantiateBullet(
-                        shotData.bulletGraphicType,
-                        shotData.bulletSpawnPosition,
-                        shotData.bulletBehaviour,
-                        shotData.bulletSpawnDelay);
 
-                    yield return new WaitForSeconds(shotData.shotPattern.linear.loopDelay);
+                    yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
                 }
 
                 yield return new WaitForSeconds(shotData.loopDelay);
             } while (shotData.loopShot);
             yield return null;
         }
+        */
 
         /* ------------------- BULLET COROUTINES -------------------- */
 

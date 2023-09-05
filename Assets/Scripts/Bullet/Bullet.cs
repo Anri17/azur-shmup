@@ -12,7 +12,7 @@ namespace AzurShmup.Bullet
     {
         public Coroutine behaviourCoroutine;
 
-        public BulletGraphicType graphic;
+        public BulletGraphic graphic;
 
         private ShotManager _shotManager;
 
@@ -34,28 +34,23 @@ namespace AzurShmup.Bullet
         /// <param name="pos">The starting position of the bullet</param>
         /// <param name="speed">The starting movement sleep of the bullet</param>
         /// <param name="angle">The starting angle of the bullet</param>
-        /// <param name="bulletBehaviour">How the bullet will behave during it's life time</param>
-        public void StartBullet(BulletSpawnPosition bulletSpawnPosition, BulletBehaviour bulletBehaviour)
+        /// <param name="behaviour">How the bullet will behave during it's life time</param>
+        public void StartBullet(BulletSpawnPosition spawnPosition, BulletBehaviourBasicA behaviour, float spawnDelay)
         {
-            // Spawn Position
-            transform.position = bulletSpawnPosition.position + bulletSpawnPosition.offset;
+            transform.position = spawnPosition.position + spawnPosition.offset;
+            behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicACoroutine(this, behaviour));
+        }
 
-            // Behaviour
-            switch (bulletBehaviour.type)
-            {
-                case BulletBehaviourType.BASIC_A:
-                {
-                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicACoroutine(this, bulletBehaviour.basicA));
-                } break;
-                case BulletBehaviourType.BASIC_B:
-                {
-                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicBCoroutine(this, bulletBehaviour.basicB));
-                } break;
-                case BulletBehaviourType.ACCELERATING_A:
-                {
-                    behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourAcceleratingACoroutine(this, bulletBehaviour.acceleratingA));
-                } break;
-            }
+        public void StartBullet(BulletSpawnPosition pawnPosition, BulletBehaviourBasicB behaviour, float spawnDelay)
+        {
+            transform.position = pawnPosition.position + pawnPosition.offset;
+            behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourBasicBCoroutine(this, behaviour));
+        }
+
+        public void StartBullet(BulletSpawnPosition spawnPosition, BulletBehaviourAcceleratingA behaviour, float spawnDelay)
+        {
+            transform.position = spawnPosition.position + spawnPosition.offset;
+            behaviourCoroutine = StartCoroutine(ShotManager.Instance.BulletBehaviourAcceleratingACoroutine(this, behaviour));
         }
     }
 }

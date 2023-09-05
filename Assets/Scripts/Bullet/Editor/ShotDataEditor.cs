@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
+using System.Runtime.InteropServices.ComTypes;
 using UnityEditor;
+using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,68 +14,137 @@ namespace AzurShmup.Bullet
         {
             ShotData shotData = (ShotData)target;
 
+            shotData.shot.type = (ShotType)EditorGUILayout.EnumPopup("Shot Type", shotData.shot.type);
             EditorGUILayout.Space();
-            shotData.bulletGraphicType = (BulletGraphicType)EditorGUILayout.EnumPopup("Bullet Graphic", shotData.bulletGraphicType);
 
-            EditorGUILayout.Space();
-            shotData.bulletSpawnDelay = EditorGUILayout.FloatField("Bullet Spawn Delay", shotData.bulletSpawnDelay);
-
-            EditorGUILayout.Space();
-            shotData.bulletSpawnPositionType = (BulletSpawnPositionType)EditorGUILayout.EnumPopup("Bullet Spawn Position", shotData.bulletSpawnPositionType);
-            if (shotData.bulletSpawnPositionType == BulletSpawnPositionType.SPECIFIC)
+            switch (shotData.shot.type)
             {
-                shotData.bulletSpawnPosition.type = BulletSpawnPositionType.SPECIFIC;
-                shotData.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shotData.bulletSpawnPosition.position);
-                shotData.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shotData.bulletSpawnPosition.offset);
-            }
-            else if (shotData.bulletSpawnPositionType == BulletSpawnPositionType.PARENT)
-            {
-                shotData.bulletSpawnPosition.type = BulletSpawnPositionType.PARENT;
-                shotData.bulletSpawnPosition.position = shotData.transform.position;
-                GUI.enabled = false; // show only
-                shotData.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shotData.bulletSpawnPosition.position);
-                GUI.enabled = true;
-                shotData.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shotData.bulletSpawnPosition.offset);
+                case ShotType.LINEAR_BASIC_A: Inspector_LinearBasicA(shotData.transform, ref shotData.shot.linearBasicA); break;
+                case ShotType.LINEAR_BASIC_B: Inspector_LinearBasicB(shotData.transform, ref shotData.shot.linearBasicB); break;
+                case ShotType.LINEAR_ACCELERATING_A: Inspector_LinearAcceleratingA(shotData.transform, ref shotData.shot.linearAcceleratingA); break;
             }
 
+        }
+
+        private void Inspector_LinearBasicA(Transform shotTransform, ref ShotLinearBasicA shot)
+        {
+            shot.bulletGraphic = (BulletGraphic)EditorGUILayout.EnumPopup("Bullet Graphic", shot.bulletGraphic);
+            shot.bulletSpawnDelay = EditorGUILayout.FloatField("Bullet Spawn Delay", shot.bulletSpawnDelay);
+
+            shot.bulletSpawnPosition.type = (BulletSpawnPositionType)EditorGUILayout.EnumPopup("Bullet Spawn Position", shot.bulletSpawnPosition.type);
+            switch (shot.bulletSpawnPosition.type)
+            {
+                case BulletSpawnPositionType.PARENT:
+                    shot.bulletSpawnPosition.position = shotTransform.position;
+                    GUI.enabled = false; // show only
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    GUI.enabled = true;
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+                case BulletSpawnPositionType.SPECIFIC:
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+            }
             EditorGUILayout.Space();
-            shotData.bulletBehaviourType = (BulletBehaviourType)EditorGUILayout.EnumPopup("Bullet Behaviour Type", shotData.bulletBehaviourType);
-            if (shotData.bulletBehaviourType == BulletBehaviourType.BASIC_A)
-            {
-                shotData.bulletBehaviour.type = BulletBehaviourType.BASIC_A;
-                shotData.bulletBehaviour.basicA.angle = EditorGUILayout.FloatField("Angle", shotData.bulletBehaviour.basicA.angle);
-                shotData.bulletBehaviour.basicA.speed = EditorGUILayout.FloatField("Speed", shotData.bulletBehaviour.basicA.speed);
-            }
-            else if (shotData.bulletBehaviourType == BulletBehaviourType.BASIC_B)
-            {
-                shotData.bulletBehaviour.type = BulletBehaviourType.BASIC_B;
-                shotData.bulletBehaviour.basicB.speed = EditorGUILayout.Vector2Field("Speed", shotData.bulletBehaviour.basicB.speed);
-            }
-            else if (shotData.bulletBehaviourType == BulletBehaviourType.ACCELERATING_A)
-            {
-                shotData.bulletBehaviour.type = BulletBehaviourType.ACCELERATING_A;
-                shotData.bulletBehaviour.acceleratingA.angle = EditorGUILayout.FloatField("Angle", shotData.bulletBehaviour.acceleratingA.angle);
-                shotData.bulletBehaviour.acceleratingA.speed = EditorGUILayout.FloatField("Speed", shotData.bulletBehaviour.acceleratingA.speed);
-                shotData.bulletBehaviour.acceleratingA.angle_change = EditorGUILayout.FloatField("Angle Change", shotData.bulletBehaviour.acceleratingA.angle_change);
-                shotData.bulletBehaviour.acceleratingA.speed_change = EditorGUILayout.FloatField("Speed Change", shotData.bulletBehaviour.acceleratingA.speed_change);
-                shotData.bulletBehaviour.acceleratingA.speed_max = EditorGUILayout.FloatField("Speed Max", shotData.bulletBehaviour.acceleratingA.speed_max);
-            }
+
+            shot.bulletBehaviour.angle = EditorGUILayout.FloatField("Angle", shot.bulletBehaviour.angle);
+            shot.bulletBehaviour.speed = EditorGUILayout.FloatField("Speed", shot.bulletBehaviour.speed);
+            EditorGUILayout.Space();
+
+            shot.start_delay = EditorGUILayout.FloatField("Start Delay", shot.start_delay);
+            shot.shoot_delay = EditorGUILayout.FloatField("Shoot Delay", shot.shoot_delay);
+            shot.is_infinite_shots = EditorGUILayout.Toggle("Infinite Shots?", shot.is_infinite_shots);
+            if (!shot.is_infinite_shots)
+                shot.shoot_count = EditorGUILayout.FloatField("Shoot Count", shot.shoot_count);
 
             EditorGUILayout.Space();
-            shotData.shotPatternType = (ShotPatternType)EditorGUILayout.EnumPopup("Shot Pattern Type", shotData.shotPatternType);
-            if (shotData.shotPatternType == ShotPatternType.LINEAR)
+            shot.loop_shot = EditorGUILayout.Toggle("Loop Shot?", shot.loop_shot);
+            if (shot.loop_shot)
             {
-                shotData.shotPattern.type = ShotPatternType.LINEAR;
-                shotData.shotPattern.linear.bulletCount = EditorGUILayout.FloatField("Bullet Count", shotData.shotPattern.linear.bulletCount);
-                shotData.shotPattern.linear.loopDelay = EditorGUILayout.FloatField("Loop Delay", shotData.shotPattern.linear.loopDelay);
-                shotData.shotPattern.linear.startDelay = EditorGUILayout.FloatField("Start Delay", shotData.shotPattern.linear.startDelay);
+                shot.loop_delay = EditorGUILayout.FloatField("Loop Delay", shot.loop_delay);
             }
+        }
+
+        private void Inspector_LinearBasicB(Transform shotTransform, ref ShotLinearBasicB shot)
+        {
+            shot.bulletGraphic = (BulletGraphic)EditorGUILayout.EnumPopup("Bullet Graphic", shot.bulletGraphic);
+            shot.bulletSpawnDelay = EditorGUILayout.FloatField("Bullet Spawn Delay", shot.bulletSpawnDelay);
+
+            shot.bulletSpawnPosition.type = (BulletSpawnPositionType)EditorGUILayout.EnumPopup("Bullet Spawn Position", shot.bulletSpawnPosition.type);
+            switch (shot.bulletSpawnPosition.type)
+            {
+                case BulletSpawnPositionType.PARENT:
+                    shot.bulletSpawnPosition.position = shotTransform.position;
+                    GUI.enabled = false; // show only
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    GUI.enabled = true;
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+                case BulletSpawnPositionType.SPECIFIC:
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+            }
+            EditorGUILayout.Space();
+
+            shot.bulletBehaviour.speed = EditorGUILayout.Vector2Field("Speed", shot.bulletBehaviour.speed);
+            EditorGUILayout.Space();
+
+            shot.start_delay = EditorGUILayout.FloatField("Start Delay", shot.start_delay);
+            shot.shoot_delay = EditorGUILayout.FloatField("Shoot Delay", shot.shoot_delay);
+            shot.is_infinite_shots = EditorGUILayout.Toggle("Infinite Shots?", shot.is_infinite_shots);
+            if (!shot.is_infinite_shots)
+                shot.shoot_count = EditorGUILayout.FloatField("Shoot Count", shot.shoot_count);
 
             EditorGUILayout.Space();
-            shotData.loopShot = EditorGUILayout.Toggle("Loop Shot?", shotData.loopShot);
-            if (shotData.loopShot)
+            shot.loop_shot = EditorGUILayout.Toggle("Loop Shot?", shot.loop_shot);
+            if (shot.loop_shot)
             {
-                shotData.loopDelay = EditorGUILayout.FloatField("Loop Delay", shotData.loopDelay);
+                shot.loop_delay = EditorGUILayout.FloatField("Loop Delay", shot.loop_delay);
+            }
+        }
+
+        private void Inspector_LinearAcceleratingA(Transform shotTransform, ref ShotLinearAcceleratingA shot)
+        {
+            shot.bulletGraphic = (BulletGraphic)EditorGUILayout.EnumPopup("Bullet Graphic", shot.bulletGraphic);
+            shot.bulletSpawnDelay = EditorGUILayout.FloatField("Bullet Spawn Delay", shot.bulletSpawnDelay);
+
+            shot.bulletSpawnPosition.type = (BulletSpawnPositionType)EditorGUILayout.EnumPopup("Bullet Spawn Position", shot.bulletSpawnPosition.type);
+            switch (shot.bulletSpawnPosition.type)
+            {
+                case BulletSpawnPositionType.PARENT:
+                    shot.bulletSpawnPosition.position = shotTransform.position;
+                    GUI.enabled = false; // show only
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    GUI.enabled = true;
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+                case BulletSpawnPositionType.SPECIFIC:
+                    shot.bulletSpawnPosition.position = EditorGUILayout.Vector2Field("Spawn Position", shot.bulletSpawnPosition.position);
+                    shot.bulletSpawnPosition.offset = EditorGUILayout.Vector2Field("Offset", shot.bulletSpawnPosition.offset);
+                    break;
+            }
+            EditorGUILayout.Space();
+
+            shot.bulletBehaviour.angle = EditorGUILayout.FloatField("Angle", shot.bulletBehaviour.angle);
+            shot.bulletBehaviour.speed = EditorGUILayout.FloatField("Speed", shot.bulletBehaviour.speed);
+            shot.bulletBehaviour.angle_change = EditorGUILayout.FloatField("Angle Change", shot.bulletBehaviour.angle_change);
+            shot.bulletBehaviour.speed_change = EditorGUILayout.FloatField("Speed Change", shot.bulletBehaviour.speed_change);
+            shot.bulletBehaviour.speed_max = EditorGUILayout.FloatField("Speed Max", shot.bulletBehaviour.speed_max);
+            EditorGUILayout.Space();
+
+            shot.start_delay = EditorGUILayout.FloatField("Start Delay", shot.start_delay);
+            shot.shoot_delay = EditorGUILayout.FloatField("Shoot Delay", shot.shoot_delay);
+            shot.is_infinite_shots = EditorGUILayout.Toggle("Infinite Shots?", shot.is_infinite_shots);
+            if (!shot.is_infinite_shots)
+                shot.shoot_count = EditorGUILayout.FloatField("Shoot Count", shot.shoot_count);
+
+            EditorGUILayout.Space();
+            shot.loop_shot = EditorGUILayout.Toggle("Loop Shot?", shot.loop_shot);
+            if (shot.loop_shot)
+            {
+                shot.loop_delay = EditorGUILayout.FloatField("Loop Delay", shot.loop_delay);
             }
         }
     }

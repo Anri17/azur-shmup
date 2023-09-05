@@ -70,7 +70,7 @@ namespace AzurShmup.Bullet
 
         public void StartShot()
         {
-            _shotCoroutine = ShotManager.Instance.CreateShot(_shotData);
+            _shotCoroutine = ShotManager.Instance.StartShot(_shotData);
         }
     }
 }

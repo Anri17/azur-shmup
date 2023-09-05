@@ -29,7 +29,7 @@ namespace AzurShmup.Bullet
             }
         }
 
-        public BulletGraphicType graphic;
+        public BulletGraphic graphic;
         public float delay;
         public Position position;
     }
