@@ -52,7 +52,15 @@ namespace AzurShmup.Bullet
             }
             EditorGUILayout.Space();
 
-            shot.bulletBehaviour.angle = EditorGUILayout.FloatField("Angle", shot.bulletBehaviour.angle);
+            shot.targetPlayer = EditorGUILayout.Toggle("Target Player?", shot.targetPlayer);
+            if (shot.targetPlayer)
+            {
+                shot.angleOffset = EditorGUILayout.FloatField("Angle Offset", shot.angleOffset);
+            }
+            else
+            {
+                shot.bulletBehaviour.angle = EditorGUILayout.FloatField("Angle", shot.bulletBehaviour.angle);
+            }
             shot.bulletBehaviour.speed = EditorGUILayout.FloatField("Speed", shot.bulletBehaviour.speed);
             EditorGUILayout.Space();
 

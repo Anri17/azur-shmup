@@ -8,6 +8,9 @@ namespace AzurShmup.Bullet
         public BulletBehaviourBasicA bulletBehaviour;
         public float bulletSpawnDelay;
 
+        public bool targetPlayer;
+        public float angleOffset;
+
         public float start_delay;
         public float shoot_delay;
         public bool is_infinite_shots;

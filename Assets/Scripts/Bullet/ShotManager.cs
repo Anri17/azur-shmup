@@ -49,6 +49,11 @@ namespace AzurShmup.Stage
                 int i = 0;
                 while (i < shot.shoot_count || shot.is_infinite_shots)
                 {
+                    if (shot.targetPlayer)
+                    {
+                        shot.bulletBehaviour.angle = AzurShmupUtilities.GetAngleVector2(shot.bulletSpawnPosition.position, GameManager.Instance.Player.transform.position) + shot.angleOffset - 90.0f;
+                    }
+                    
                     Bullet.Bullet bullet = _bulletPool.Get_Bullet(shot.bulletGraphic);
                     bullet.StartBullet(shot.bulletSpawnPosition, shot.bulletBehaviour, shot.bulletSpawnDelay);
 

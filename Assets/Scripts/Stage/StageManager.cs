@@ -21,8 +21,8 @@ namespace AzurShmup.Stage
         private BossManager _bossManager;
         private BackgroundManager _backgroundManager;
 
-        [HideInInspector] public GameObject spawnedPlayer;
-        [HideInInspector] public GameObject deathAnimation;
+        //[HideInInspector] public GameObject spawnedPlayer;
+        //[HideInInspector] public GameObject deathAnimation;
 
         [Header("Stages")]
         public Stage[] stages;
