@@ -6,6 +6,7 @@ using AzurShmup.Bullet;
 using System;
 using System.Runtime.InteropServices.ComTypes;
 using AzurShmup.Core;
+using UnityEditor.Graphs;
 
 namespace AzurShmup.Stage
 {
@@ -29,6 +30,8 @@ namespace AzurShmup.Stage
                     return StartCoroutine(ShotCoroutine_LinearBasicB(shotData.shot.linearBasicB));
                 case ShotType.LINEAR_ACCELERATING_A:
                     return StartCoroutine(ShotCoroutine_LinearAcceleratingA(shotData.shot.linearAcceleratingA));
+                case ShotType.CIRCULAR_BASIC_A:
+                    return StartCoroutine(ShotCoroutine_CircularBasicA(shotData.shot.circularBasicA));
             }
 
             throw new Exception("Shot pattern not defined.");
@@ -96,55 +99,50 @@ namespace AzurShmup.Stage
             yield return null;
         }
 
-        /*
-        public IEnumerator ShotCoroutine_Rotating(ShotData shotData)
+        
+        public IEnumerator ShotCoroutine_CircularBasicA(ShotCircularBasicA shot)
         {
+            // Linear
+
+            yield return new WaitForSeconds(shot.start_delay);
             do
             {
-                yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
-
-                if (shotData.shot.rotating.cluster_count <= 0)
+                int i = 0;
+                float delta_angle = shot.end_angle - shot.start_angle;
+                float offset_angle = delta_angle / (shot.shot_directions-1);
+                float angle = shot.start_angle;
+                while (i < shot.shoot_count || shot.is_infinite_shots)
                 {
-                    while (true)
+                    for (int j = 0; j < shot.shot_size; ++j)
                     {
-                        // set bullet starting angles
-                        if (shotData.shot.rotating.isRandom)
+                        shot.bulletBehaviour.angle = angle;
+                        Bullet.Bullet bullet = _bulletPool.Get_Bullet(shot.bulletGraphic);
+                        bullet.StartBullet(shot.bulletSpawnPosition, shot.bulletBehaviour, shot.bulletSpawnDelay);
+                        if (shot.is_random_directions)
                         {
-
+                            angle = UnityEngine.Random.Range(shot.start_angle, shot.end_angle);
                         }
-                        for (int i = 0; i < shotData.shot.rotating.cluster_size; ++i)
+                        else
                         {
-                            Bullet.Bullet bullet = InstantiateBullet(
-                                shotData.bulletGraphicType,
-                                shotData.bulletSpawnPosition,
-                                shotData.bulletBehaviour,
-                                shotData.bulletSpawnDelay);
+                            angle += offset_angle;
+                            // define a 0.1f margin to account for floating point rounding errors
+                            // (so that if angle = 199.99999, its value doesn't get reset if the min/max is 200, as an example)
+                            if (delta_angle > 0 && angle > shot.end_angle+0.1f)
+                                angle = shot.start_angle;
+                            else if (delta_angle < 0 && angle < shot.end_angle-0.1f)
+                                angle = shot.start_angle;
                         }
-
-                        yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
-                    }
-                }
-                for (int i = 0; i < shotData.shot.rotating.cluster_count; i++)
-                {
-                    for (int j = 0; j < shotData.shot.rotating.cluster_size; ++j)
-                    {
-                        Bullet.Bullet bullet = InstantiateBullet(
-                            shotData.bulletGraphicType,
-                            shotData.bulletSpawnPosition,
-                            shotData.bulletBehaviour,
-                            shotData.bulletSpawnDelay);
-
-                        float angle = 0;
                     }
 
-                    yield return new WaitForSeconds(shotData.shot.rotating.shoot_delay);
+                    if (!shot.is_infinite_shots) ++i;
+                    yield return new WaitForSeconds(shot.shoot_delay);
                 }
 
-                yield return new WaitForSeconds(shotData.loopDelay);
-            } while (shotData.loopShot);
+                yield return new WaitForSeconds(shot.loop_delay);
+            } while (shot.loop_shot);
             yield return null;
         }
-        */
+        
 
         /* ------------------- BULLET COROUTINES -------------------- */
 

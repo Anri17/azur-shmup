@@ -12,6 +12,7 @@ namespace AzurShmup.Bullet
         {
             base.OnInspectorGUI();
 
+            EditorGUILayout.Space();
             if (GUILayout.Button("Reset Shot"))
             {
                 ShotGeneratorField shotGenerator = (ShotGeneratorField)target;

@@ -8,6 +8,6 @@ namespace AzurShmup.Bullet
         public ShotLinearBasicA linearBasicA;
         public ShotLinearBasicB linearBasicB;
         public ShotLinearAcceleratingA linearAcceleratingA;
-        //public ShotPatternRotating rotating;
+        public ShotCircularBasicA circularBasicA;
     }
 }

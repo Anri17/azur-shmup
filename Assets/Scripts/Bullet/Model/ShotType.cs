@@ -5,5 +5,7 @@ namespace AzurShmup.Bullet
         LINEAR_BASIC_A,
         LINEAR_BASIC_B,
         LINEAR_ACCELERATING_A,
+
+        CIRCULAR_BASIC_A
     }
 }
